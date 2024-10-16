@@ -20,10 +20,11 @@ import Report from "./admin/pages/Report";
 import SalesManagement from "./admin/pages/SalesManagement";
 import Users from "./admin/pages/Users";
 import Setting from "./admin/pages/Settings";
-import AdjustmentReasonType from "./admin/pages/AdjustmentTypeReason";
 import InventoryAdjustment from "./admin/pages/InventoryAdjustment";
 import InventoryType from "./admin/pages/InventoryType";
 import Location from "./admin/pages/Location";
+import AdjustmentType from "./admin/pages/AdjustmentType";
+import AdjustmentTypeReason from "./admin/pages/AdjustmentTypeReason";
 
 function App() {
   const location = useLocation();
@@ -54,11 +55,12 @@ function App() {
         <Route path="/settings" element={<Setting />} />
         <Route path="/inventory/inventory-type" element={<InventoryType />} />
         <Route path="/inventory-adjustment" element={<InventoryAdjustment />} />
-        <Route
-          path="/adjustment-reason-type"
-          element={<AdjustmentReasonType />}
-        />
         <Route path="/location" element={<Location />} />
+        <Route path="/adjustment-type" element={<AdjustmentType />} />
+        <Route
+          path="/adjustment-type-reason"
+          element={<AdjustmentTypeReason />}
+        />
       </Routes>
       <Toaster />
     </div>

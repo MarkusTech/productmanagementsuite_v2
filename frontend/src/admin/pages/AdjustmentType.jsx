@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import AdjustmentTypeContent from "../components/AdjustmentTypeReason/AdjustmentTypeContent";
+import AdjustmentTypeContent from "../components/AdjustmentType/AdjustmentTypeContent";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const AdjustmentTypeReason = () => {
+const AdjustmentType = () => {
   const userState = useSelector((state) => state.user);
-  // console.log(userState);
 
   const storedDarkMode = localStorage.getItem("darkMode") === "true";
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
@@ -51,4 +50,4 @@ const AdjustmentTypeReason = () => {
   );
 };
 
-export default AdjustmentTypeReason;
+export default AdjustmentType;

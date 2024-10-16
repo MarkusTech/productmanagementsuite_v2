@@ -82,8 +82,14 @@ const Sidebar = ({ isClosed }) => {
                 </Link>
               </li>
               <li>
-                <Link to="/adjustment-reason-type">
-                  <i className="bx bx-list-ul"></i> Adjustment Reason Type
+                <Link to="/adjustment-type">
+                  <i className="bx bx-cog"></i> Adjustment Type
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/adjustment-type-reason">
+                  <i className="bx bx-list-ul"></i> Adjustment Type Reason
                 </Link>
               </li>
               <li>
