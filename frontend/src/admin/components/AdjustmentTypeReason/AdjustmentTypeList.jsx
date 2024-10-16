@@ -38,7 +38,7 @@ const AdjustmentTypeList = () => {
 
   return (
     <div className="table-container">
-      <h3>ADJUSTMENT TYPE</h3>
+      <h3>ADJUSTMENT TYPE REASON</h3>
       <br />
       <div className="row">
         <div className="col-12">
