@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../Table";
 import { fetchUsers } from "../../../services/auth/userService";
 import UserCreateForm from "./userCreateForm";
+import { Button } from "@mui/material";
 
 const userTableHead = [
   "ID",
@@ -14,24 +15,10 @@ const userTableHead = [
   "Address",
   "Birthday",
   "Status",
+  "Action", // Action column for Edit button
 ];
 
 const renderHead = (item, index) => <th key={index}>{item}</th>;
-
-const renderBody = (item, index) => (
-  <tr key={index}>
-    <td>{item.userID}</td>
-    <td>{item.firstName}</td>
-    <td>{item.middleName}</td>
-    <td>{item.lastName}</td>
-    <td>{item.roleID}</td>
-    <td>{item.email}</td>
-    <td>{item.phoneNumber}</td>
-    <td>{item.address}</td>
-    <td>{item.birthday}</td>
-    <td>{item.status ? "Active" : "Inactive"}</td>
-  </tr>
-);
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -58,6 +45,38 @@ const UserList = () => {
     loadUsers(); // Refresh the user list after a new user is created
     setShowCreateForm(false); // Hide the form after user creation
   };
+
+  const handleEdit = (user) => {
+    // For now, we'll log the user being edited.
+    console.log("Editing user: ", user);
+
+    // You might want to implement a form or modal to edit the user details
+    // Example: setSelectedUser(user); to store in state for editing
+  };
+
+  const renderBody = (item, index) => (
+    <tr key={index}>
+      <td>{item.userID}</td>
+      <td>{item.firstName}</td>
+      <td>{item.middleName}</td>
+      <td>{item.lastName}</td>
+      <td>{item.roleID}</td>
+      <td>{item.email}</td>
+      <td>{item.phoneNumber}</td>
+      <td>{item.address}</td>
+      <td>{item.birthday}</td>
+      <td>{item.status ? "Active" : "Inactive"}</td>
+      <td>
+        <Button
+          variant="contained" // Use MUI Button
+          color="primary" // Button color
+          onClick={() => handleEdit(item)} // Call the edit function
+        >
+          Edit
+        </Button>
+      </td>
+    </tr>
+  );
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -86,7 +105,7 @@ const UserList = () => {
                 headData={userTableHead}
                 renderHead={renderHead}
                 bodyData={users}
-                renderBody={renderBody}
+                renderBody={renderBody} // Pass renderBody as a prop
               />
             </div>
           </div>
