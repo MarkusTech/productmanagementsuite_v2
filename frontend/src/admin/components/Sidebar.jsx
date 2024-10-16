@@ -55,8 +55,8 @@ const Sidebar = ({ isClosed }) => {
         </li>
 
         {/* Inventory Submenu */}
-        <li>
-          <Link to="/inventory" onClick={toggleInventory}>
+        <li onClick={toggleInventory}>
+          <Link>
             <i className="bx bxs-cog"></i>Inventory Setup
             <i
               className={`bx ${
