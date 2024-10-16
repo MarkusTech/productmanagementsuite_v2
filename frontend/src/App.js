@@ -23,8 +23,8 @@ import Setting from "./admin/pages/Settings";
 import InventoryAdjustment from "./admin/pages/InventoryAdjustment";
 import InventoryType from "./admin/pages/InventoryType";
 import Location from "./admin/pages/Location";
-import AdjustmentType from "./admin/pages/AdjustmentType";
 import AdjustmentTypeReason from "./admin/pages/AdjustmentTypeReason";
+import AdjustmentType from "./admin/pages/AdjustmentType";
 
 function App() {
   const location = useLocation();
