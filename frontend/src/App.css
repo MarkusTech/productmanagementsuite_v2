@@ -470,15 +470,15 @@ body.dark {
 /* new css */
 .content main .table-container {
   flex-wrap: wrap;
-  grid-gap: 24px;
-  margin-top: 1px;
+  /* grid-gap: 24px; */
+  /* margin-top: 1px; */
   width: 100%;
   color: var(--dark);
 }
 .content main .table-container > div {
   border-radius: 20px;
   background: var(--light);
-  padding: 24px;
+  /* padding: 24px; */
   overflow-x: auto;
 }
 .content main .table-container > h3 {
@@ -499,6 +499,26 @@ body.dark {
   border-radius: 20px;
   overflow-x: auto;
   box-sizing: border-box;
+}
+
+.table-container {
+  display: flex; /* Use flexbox layout */
+  flex-direction: column;
+}
+
+.create-user-btn {
+  background-color: blue; /* Button background color */
+  color: white; /* Button text color */
+  border: none; /* Remove default border */
+  padding: 10px 15px;
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 16px; /* Font size */
+  align-self: flex-end;
+}
+
+.create-user-btn:hover {
+  background-color: darkblue; /* Darker blue on hover */
 }
 
 @media screen and (max-width: 768px) {
@@ -568,32 +588,44 @@ tbody > tr:hover {
 }
 .table__pagination {
   display: flex;
-  width: 100%;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: 20px;
-}
-.table__pagination-item ~ .table__pagination-item {
-  margin-left: 10px;
-}
-.table__pagination-item {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.table__pagination-item {
+  padding: 10px 15px;
   cursor: pointer;
+  border: 1px solid #ccc;
+  margin: 0 5px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
 }
-.table__pagination-item.active,
-.table__pagination-item.active:hover {
-  background-color: var(--main-color);
-  color: var(--txt-white);
-  font-weight: 600;
+
+.table__pagination-item.active {
+  background-color: blue;
+  color: white;
+  border: 1px solid blue;
 }
-.table__pagination-item:hover {
-  color: var(--txt-white);
-  background-color: var(--second-color);
+
+.pagination__button {
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 5px;
+  transition: background-color 0.3s;
+}
+
+.pagination__button.disabled {
+  background-color: lightgray;
+  cursor: not-allowed;
+}
+
+.pagination__button:hover:not(.disabled) {
+  background-color: darkblue;
 }
 .row {
   display: flex;

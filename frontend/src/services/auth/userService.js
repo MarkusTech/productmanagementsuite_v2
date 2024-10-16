@@ -10,3 +10,13 @@ export const fetchUsers = async () => {
     throw new Error("Error fetching users: " + error.message);
   }
 };
+
+// Create user
+export const createUser = async (userData) => {
+  try {
+    const response = await axios.post(API_URL, userData);
+    return response.data; // Handle the response from the API
+  } catch (error) {
+    throw new Error("Error creating user: " + error.message);
+  }
+};

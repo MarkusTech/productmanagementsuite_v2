@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Pagination from "./Pagination"; // Import the new Pagination component
 
 const Table = (props) => {
   const initDataShow =
@@ -7,25 +8,14 @@ const Table = (props) => {
       : props.bodyData;
 
   const [dataShow, setDataShow] = useState(initDataShow);
-
-  let pages = 1;
-
-  let range = [];
-
-  if (props.limit !== undefined) {
-    let page = Math.floor(props.bodyData.length / Number(props.limit));
-    pages = props.bodyData.length % Number(props.limit) === 0 ? page : page + 1;
-    range = [...Array(pages).keys()];
-  }
-
   const [currPage, setCurrPage] = useState(0);
+  const totalPages =
+    Math.ceil(props.bodyData.length / Number(props.limit)) || 1;
 
   const selectPage = (page) => {
     const start = Number(props.limit) * page;
     const end = start + Number(props.limit);
-
     setDataShow(props.bodyData.slice(start, end));
-
     setCurrPage(page);
   };
 
@@ -49,21 +39,14 @@ const Table = (props) => {
           ) : null}
         </table>
       </div>
-      {pages > 1 ? (
-        <div className="table__pagination">
-          {range.map((item, index) => (
-            <div
-              key={index}
-              className={`table__pagination-item ${
-                currPage === index ? "active" : ""
-              }`}
-              onClick={() => selectPage(index)}
-            >
-              {item + 1}
-            </div>
-          ))}
-        </div>
-      ) : null}
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currPage}
+          totalPages={totalPages}
+          onPageChange={selectPage}
+        />
+      )}
     </div>
   );
 };
