@@ -1,0 +1,192 @@
+// This is your Prisma schema file
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  userID       Int      @id @default(autoincrement())
+  firstName    String
+  middleName   String
+  lastName     String
+  roleID       Int
+  username     String   @unique
+  email        String   @unique
+  password     String
+  phoneNumber  String
+  address      String
+  birthday     String
+  status       Boolean  @default(true)
+  image_url    String?
+  createdByID  Int
+  modifiedByID Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Categories {
+  categoryID   Int      @id @default(autoincrement())
+  categoryCode String   @unique
+  categoryName String
+  description  String?
+  status       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Locations {
+  locationID   Int      @id @default(autoincrement())
+  locationName String
+  description  String?
+  status       Boolean  @default(true)
+  createdByID  Int
+  modifiedByID Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Suppliers {
+  supplierID   Int      @id @default(autoincrement())
+  supplierName String
+  description  String?
+  status       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Items {
+  itemID       Int      @id @default(autoincrement())
+  itemCode     String   @unique
+  categoryID   Int
+  barcode      String
+  itemName     String
+  description  String?
+  grams        Float
+  uom          String
+  price        Float
+  cost         Float
+  image_url    String?
+  createdByID  Int // Creator of this item
+  modifiedByID Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  status       Boolean  @default(true)
+}
+
+model Inventory {
+  inventoryID      Int      @id @default(autoincrement())
+  locationID       Int
+  itemID           Int
+  quantity         Int
+  inventoryTypeID  Int
+  reOrderThreshold String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model InventoryType {
+  inventoryTypeID Int      @id @default(autoincrement())
+  typeName        String
+  description     String
+  status          Boolean  @default(true)
+  createdByID     Int
+  modifiedByID    Int?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model InventoryAdjustment {
+  adjustmentID       Int      @id @default(autoincrement())
+  inventoryID        Int
+  adjustmentTypeID   Int
+  adjustmentReasonID Int
+  quantityAdjusted   Int
+  status             String
+  createdByID        Int
+  modifiedByID       Int?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model AdjustmentType {
+  adjustmentTypeID Int      @id @default(autoincrement())
+  typeName         String
+  createdByID      Int
+  modifiedByID     Int?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model AdjustmentReason {
+  adjustmentReasonID Int      @id @default(autoincrement())
+  reasonName         String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  createdByID        Int
+  modifiedByID       Int?
+}
+
+model PurchaseOrder {
+  poID                Int      @id @default(autoincrement())
+  poNumber            Int      @unique
+  supplierID          Int
+  orderDate           DateTime
+  expectedDeliverDate DateTime
+  status              String
+  locationID          Int
+  createdByID         Int
+  modifiedByID        Int?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model PurchaseOrderItem {
+  poItemID  Int      @id @default(autoincrement())
+  poID      Int
+  itemID    Int
+  uom       String
+  unitCost  Float
+  orderQty  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model poReceivingItem {
+  poReceivingItemID Int      @id @default(autoincrement())
+  itemID            Int
+  uom               String
+  receivedQty       Int
+  unitCost          Float
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model poReceiving {
+  poReceivingID   Int      @id @default(autoincrement())
+  poID            Int
+  receivedDate    DateTime
+  referenceNumber String
+  totalCost       Float
+  totalQty        Int
+  status          String
+  receivedByID    Int
+  createdAt       DateTime
+  updatedAt       DateTime
+}
+
+model poSupplier {
+  supplierID     Int      @id @default(autoincrement())
+  supplierName   String
+  contactDetails String
+  address        String
+  email          String
+  createdByID    Int
+  modifiedByID   Int?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  status         Boolean  @default(true)
+}
