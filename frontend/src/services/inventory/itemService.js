@@ -1,7 +1,7 @@
 // src/services/itemService.js
 import axios from "axios";
 
-const API_URL = "http://192.168.1.55:5001/api/v1/items";
+const API_URL = "http://localhost:5001/api/v1/items";
 
 export const fetchItems = async () => {
   try {
