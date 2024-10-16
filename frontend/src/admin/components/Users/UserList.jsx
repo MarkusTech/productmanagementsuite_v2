@@ -3,6 +3,7 @@ import Table from "../Table";
 import { fetchUsers } from "../../../services/auth/userService";
 import UserCreateForm from "./userCreateForm";
 import { Button } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
 const userTableHead = [
   "ID",
@@ -42,16 +43,12 @@ const UserList = () => {
   }, []);
 
   const handleUserCreated = () => {
-    loadUsers(); // Refresh the user list after a new user is created
-    setShowCreateForm(false); // Hide the form after user creation
+    loadUsers();
+    setShowCreateForm(false);
   };
 
   const handleEdit = (user) => {
-    // For now, we'll log the user being edited.
     console.log("Editing user: ", user);
-
-    // You might want to implement a form or modal to edit the user details
-    // Example: setSelectedUser(user); to store in state for editing
   };
 
   const renderBody = (item, index) => (
@@ -68,9 +65,10 @@ const UserList = () => {
       <td>{item.status ? "Active" : "Inactive"}</td>
       <td>
         <Button
-          variant="contained" // Use MUI Button
-          color="primary" // Button color
-          onClick={() => handleEdit(item)} // Call the edit function
+          variant="contained"
+          color="primary"
+          onClick={() => handleEdit(item)}
+          startIcon={<EditIcon />}
         >
           Edit
         </Button>
