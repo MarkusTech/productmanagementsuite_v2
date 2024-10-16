@@ -511,7 +511,7 @@ body.dark {
   color: white; /* Button text color */
   border: none; /* Remove default border */
   padding: 10px 15px;
-  border-radius: 5px; /* Rounded corners */
+  border-radius: 10px; /* Rounded corners */
   cursor: pointer; /* Pointer cursor on hover */
   font-size: 16px; /* Font size */
   align-self: flex-end;
@@ -598,7 +598,7 @@ tbody > tr:hover {
   cursor: pointer;
   border: 1px solid #ccc;
   margin: 0 5px;
-  border-radius: 5px;
+  border-radius: 10px;
   transition: background-color 0.3s, color 0.3s;
 }
 
@@ -613,7 +613,7 @@ tbody > tr:hover {
   color: white;
   border: none;
   padding: 10px 15px;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   margin: 0 5px;
   transition: background-color 0.3s;
