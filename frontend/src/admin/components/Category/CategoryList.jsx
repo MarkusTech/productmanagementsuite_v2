@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Table from "../Table";
-import { fetchCategories } from "../../../services/inventory/categoryService"; // Ensure this imports your fetch function
-import CategoryCreateForm from "./CategoryCreateForm"; // Import your CategoryCreateForm
+import { fetchCategories } from "../../../services/inventory/categoryService";
+import CategoryCreateForm from "./CategoryCreateForm";
 import CategoryEditForm from "./CategoryEditForm";
 import { Button } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit"; // Import Material-UI Edit Icon
+import EditIcon from "@mui/icons-material/Edit";
 
 const categoryTableHead = [
   "Category ID",
@@ -12,7 +12,7 @@ const categoryTableHead = [
   "Category Name",
   "Description",
   "Status",
-  "Action", // Action column for Edit button
+  "Action",
 ];
 
 const renderHead = (item, index) => <th key={index}>{item}</th>;
@@ -23,7 +23,7 @@ const CategoryList = () => {
   const [error, setError] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [editCategory, setEditCategory] = useState(null); // State to hold the category being edited
+  const [editCategory, setEditCategory] = useState(null);
 
   const loadCategories = async () => {
     try {
@@ -41,18 +41,18 @@ const CategoryList = () => {
   }, []);
 
   const handleCategoryCreated = () => {
-    loadCategories(); // Reload categories after creating a new one
-    setShowCreateForm(false); // Close the create form
+    loadCategories();
+    setShowCreateForm(false);
   };
 
   const handleEdit = (category) => {
-    setEditCategory(category); // Set the category to be edited
-    setShowEditForm(true); // Show the edit form
+    setEditCategory(category);
+    setShowEditForm(true);
   };
 
   const handleEditFormClose = () => {
-    setShowEditForm(false); // Close the edit form
-    setEditCategory(null); // Reset the edit category
+    setShowEditForm(false);
+    setEditCategory(null);
   };
 
   const renderBody = (item, index) => (
@@ -63,7 +63,7 @@ const CategoryList = () => {
       <td>{item.description}</td>
       <td
         style={{
-          color: item.status ? "blue" : "red", // Conditionally set the color based on status
+          color: item.status ? "blue" : "red",
           fontWeight: "bold",
         }}
       >
@@ -73,7 +73,7 @@ const CategoryList = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleEdit(item)} // Handle edit click
+          onClick={() => handleEdit(item)}
           startIcon={<EditIcon />}
         >
           Edit
@@ -89,21 +89,21 @@ const CategoryList = () => {
     <div className="table-container">
       <h3>CATEGORY LIST</h3>
       <button
-        className="create-user-btn"
-        onClick={() => setShowCreateForm((prev) => !prev)} // Toggle the create form visibility
+        className="create-form-btn"
+        onClick={() => setShowCreateForm((prev) => !prev)}
       >
         + Create Category
       </button>
       <br />
 
-      {showCreateForm && ( // Render the create form conditionally
+      {showCreateForm && (
         <CategoryCreateForm
           onCategoryCreated={handleCategoryCreated}
           closeForm={() => setShowCreateForm(false)}
         />
       )}
 
-      {showEditForm && ( // Render the edit form conditionally
+      {showEditForm && (
         <CategoryEditForm
           category={editCategory}
           onClose={handleEditFormClose}

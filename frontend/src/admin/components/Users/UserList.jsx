@@ -16,7 +16,7 @@ const userTableHead = [
   "Address",
   "Birthday",
   "Status",
-  "Action", // Action column for Edit button
+  "Action",
 ];
 
 const renderHead = (item, index) => <th key={index}>{item}</th>;
