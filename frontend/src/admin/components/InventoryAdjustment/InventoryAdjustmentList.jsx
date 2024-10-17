@@ -5,6 +5,7 @@ import InventoryAdjustmentCreateForm from "./InventoryAdjustmentCreateForm";
 import InventoryAdjustmentEditForm from "./InventoryAdjustmentUpdateForm";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import Swal from "sweetalert2";
 
 const inventoryAdjustmentTableHead = [
   "ID",
@@ -44,6 +45,11 @@ const InventoryAdjustmentList = () => {
   const handleInventoryAdjustmentCreated = () => {
     loadInventoryAdjustments();
     setShowCreateForm(false);
+    Swal.fire({
+      icon: "success",
+      title: "Inventory Adjustment Created!",
+      text: "The new inventory adjustment has been successfully created.",
+    });
   };
 
   const handleEdit = (adjustment) => {
@@ -83,13 +89,14 @@ const InventoryAdjustmentList = () => {
   return (
     <div className="table-container">
       <h3>INVENTORY ADJUSTMENT LIST</h3>
-      <button
-        className="create-form-btn"
+      <Button
+        variant="contained"
+        color="primary"
         onClick={() => setShowCreateForm((prev) => !prev)}
+        style={{ marginBottom: "16px" }}
       >
         + Create Inventory Adjustment
-      </button>
-      <br />
+      </Button>
 
       {showCreateForm && (
         <InventoryAdjustmentCreateForm
@@ -114,7 +121,7 @@ const InventoryAdjustmentList = () => {
                 headData={inventoryAdjustmentTableHead}
                 renderHead={renderHead}
                 bodyData={inventoryAdjustments}
-                renderBody={renderBody} // Pass renderBody as a prop
+                renderBody={renderBody}
               />
             </div>
           </div>

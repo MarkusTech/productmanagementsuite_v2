@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { createAdjustmentType } from "../../../services/inventory/adjustmentTypeService";
 import { TextField, Button, Grid, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import Swal from "sweetalert2";
 
 const AdjustmentTypeCreateForm = ({ onAdjustmentTypeCreated, closeForm }) => {
   const [formData, setFormData] = useState({
     typeName: "",
     createdByID: 1, // Replace with your logic
-    modifiedByID: 1, // Replace with your logic
+    modifiedByID: null,
   });
 
   const [error, setError] = useState(null);
@@ -25,7 +26,13 @@ const AdjustmentTypeCreateForm = ({ onAdjustmentTypeCreated, closeForm }) => {
     try {
       const response = await createAdjustmentType(formData);
       if (response.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Adjustment Type Created!",
+          text: "The new adjustment type has been successfully created.",
+        });
         onAdjustmentTypeCreated(); // Notify the parent component
+        closeForm();
       } else {
         setError(response.message);
       }
@@ -40,7 +47,11 @@ const AdjustmentTypeCreateForm = ({ onAdjustmentTypeCreated, closeForm }) => {
         <CloseIcon />
       </IconButton>
 
-      <h1>Create New Adjustment Type</h1>
+      <h1
+        style={{ marginTop: "20px", fontWeight: "bold", textAlign: "center" }}
+      >
+        Create New Adjustment Type
+      </h1>
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
@@ -55,9 +66,16 @@ const AdjustmentTypeCreateForm = ({ onAdjustmentTypeCreated, closeForm }) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" type="submit" fullWidth>
-              Create Adjustment Type
-            </Button>
+            <Grid container justifyContent="flex-end">
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                fullWidth
+              >
+                Create Adjustment Type
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </form>
@@ -75,6 +93,9 @@ const styles = {
     padding: "20px",
     backgroundColor: "#fff",
     borderRadius: "8px",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+    zIndex: 1000,
+    overflow: "auto",
   },
   closeButton: {
     position: "absolute",
