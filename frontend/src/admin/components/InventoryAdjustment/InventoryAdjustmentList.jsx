@@ -13,7 +13,7 @@ const inventoryAdjustmentTableHead = [
   "Adjustment Reason",
   "Quantity Adjusted",
   "Status",
-  "Action", // Added action column for future enhancements
+  "Action",
 ];
 
 const renderHead = (item, index) => <th key={index}>{item}</th>;
