@@ -57,8 +57,8 @@ const AdjustmentTypeList = () => {
     <div className="table-container">
       <h3>ADJUSTMENT TYPE</h3>
       <button
-        className="create-adjustment-btn"
-        onClick={() => setShowCreateForm((prev) => !prev)} // Toggle create form visibility
+        className="create-form-btn"
+        onClick={() => setShowCreateForm((prev) => !prev)}
       >
         + Create Adjustment Type
       </button>

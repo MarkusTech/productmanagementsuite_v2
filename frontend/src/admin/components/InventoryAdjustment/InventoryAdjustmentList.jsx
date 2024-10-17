@@ -89,14 +89,13 @@ const InventoryAdjustmentList = () => {
   return (
     <div className="table-container">
       <h3>INVENTORY ADJUSTMENT LIST</h3>
-      <Button
-        variant="contained"
-        color="primary"
+      <button
+        className="create-form-btn"
         onClick={() => setShowCreateForm((prev) => !prev)}
-        style={{ marginBottom: "16px" }}
       >
         + Create Inventory Adjustment
-      </Button>
+      </button>
+      <br />
 
       {showCreateForm && (
         <InventoryAdjustmentCreateForm
