@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { createUser } from "../../../services/auth/userService";
 import { TextField, Button, Grid, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import Swal from "sweetalert2";
 
 const UserCreateForm = ({ onUserCreated, closeForm }) => {
   const [formData, setFormData] = useState({
@@ -15,8 +16,8 @@ const UserCreateForm = ({ onUserCreated, closeForm }) => {
     phoneNumber: "",
     address: "",
     birthday: "",
-    createdByID: 1, // Adjust this based on your authentication or default values
-    modifiedByID: 1, // Adjust this as well
+    createdByID: 1,
+    modifiedByID: 1,
   });
 
   const [error, setError] = useState(null);
@@ -34,9 +35,13 @@ const UserCreateForm = ({ onUserCreated, closeForm }) => {
     try {
       const response = await createUser(formData);
       if (response.success) {
-        // Notify parent component that a user was created successfully
+        Swal.fire({
+          icon: "success",
+          title: "User Created!",
+          text: "The new user has been successfully created.",
+        });
         onUserCreated();
-        closeForm(); // Close the form after successful creation
+        closeForm();
       } else {
         setError(response.message);
       }
@@ -47,7 +52,6 @@ const UserCreateForm = ({ onUserCreated, closeForm }) => {
 
   return (
     <div style={styles.formContainer}>
-      {/* Close Button */}
       <IconButton
         style={styles.closeButton}
         onClick={closeForm}
@@ -167,9 +171,17 @@ const UserCreateForm = ({ onUserCreated, closeForm }) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" type="submit" fullWidth>
-              Create User
-            </Button>
+            <Grid container justifyContent="flex-end">
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                fullWidth // Ensure the button is full width
+                style={styles.submitButton}
+              >
+                Create User
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </form>
@@ -197,6 +209,9 @@ const styles = {
     position: "absolute",
     top: "10px",
     right: "10px",
+  },
+  submitButton: {
+    backgroundColor: "#3f51b5",
   },
 };
 

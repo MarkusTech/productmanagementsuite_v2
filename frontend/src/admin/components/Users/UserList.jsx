@@ -28,6 +28,7 @@ const UserList = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
 
   const loadUsers = async () => {
+    setLoading(true); // Set loading to true before fetching data
     try {
       const data = await fetchUsers();
       setUsers(data);
@@ -53,6 +54,7 @@ const UserList = () => {
 
   const handleEdit = (user) => {
     console.log("Editing user: ", user);
+    // Implement edit functionality if needed
   };
 
   const renderBody = (item, index) => (
@@ -87,15 +89,12 @@ const UserList = () => {
     </tr>
   );
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
   return (
     <div className="table-container">
       <h3>USER LIST</h3>
       <button
-        className="create-user-btn"
-        onClick={() => setShowCreateForm((prev) => !prev)} // Toggle the create form visibility
+        className="create-form-btn"
+        onClick={() => setShowCreateForm((prev) => !prev)}
       >
         + Create User
       </button>
@@ -112,13 +111,17 @@ const UserList = () => {
         <div className="col-12">
           <div className="card">
             <div className="card__body">
-              <Table
-                limit="10"
-                headData={userTableHead}
-                renderHead={renderHead}
-                bodyData={users}
-                renderBody={renderBody} // Pass renderBody as a prop
-              />
+              {loading && <div>Loading...</div>}
+              {error && <div>Error: {error}</div>}
+              {!loading && !error && (
+                <Table
+                  limit="10"
+                  headData={userTableHead}
+                  renderHead={renderHead}
+                  bodyData={users}
+                  renderBody={renderBody} // Pass renderBody as a prop
+                />
+              )}
             </div>
           </div>
         </div>
