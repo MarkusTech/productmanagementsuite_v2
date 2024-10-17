@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../Table";
 import { fetchAdjustmentTypes } from "../../../services/inventory/adjustmentTypeService";
 
-const adjustmentTypeTableHead = ["ID", "Adjustment Type Name"];
+const adjustmentTypeTableHead = ["ID", "Reason Name"];
 
 const renderHead = (item, index) => <th key={index}>{item}</th>;
 
