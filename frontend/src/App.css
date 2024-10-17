@@ -521,6 +521,20 @@ body.dark {
   background-color: darkblue; /* Darker blue on hover */
 }
 
+.create-form-btn {
+  background-color: blue; /* Button background color */
+  color: white; /* Button text color */
+  border: none; /* Remove default border */
+  padding: 10px 15px;
+  border-radius: 10px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 16px; /* Font size */
+  align-self: flex-end;
+}
+
+.create-form-btn:hover {
+  background-color: darkblue; /* Darker blue on hover */
+}
 @media screen and (max-width: 768px) {
   .sidebar {
     width: 200px;
