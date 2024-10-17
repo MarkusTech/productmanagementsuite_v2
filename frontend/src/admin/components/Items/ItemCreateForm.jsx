@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { createItem } from "../../../services/inventory/itemService"; // Import the service
 import { TextField, Button, Grid, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import Swal from "sweetalert2";
 
 const ItemCreateForm = ({ onItemCreated, closeForm }) => {
   const [formData, setFormData] = useState({
@@ -12,18 +13,24 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
     description: "",
     grams: 0,
     uom: "",
-    price: 0,
-    cost: 0,
-    status: true, // Default status
+    price: 0.0,
+    cost: 0.0,
+    createdByID: 1,
   });
 
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]:
+        name === "categoryID" || name === "createdByID"
+          ? parseInt(value, 10)
+          : name === "grams" || name === "price" || name === "cost"
+          ? parseFloat(value)
+          : value,
     }));
   };
 
@@ -32,8 +39,12 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
     try {
       const response = await createItem(formData);
       if (response.success) {
-        // Notify parent component that an item was created successfully
-        onItemCreated();
+        Swal.fire({
+          icon: "success",
+          title: "Item Created!",
+          text: "The item has been successfully created.",
+        });
+        onItemCreated(); // Notify parent component that an item was created successfully
         closeForm(); // Close the form after successful creation
       } else {
         setError(response.message);
@@ -90,6 +101,7 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
               value={formData.categoryID}
               onChange={handleChange}
               required
+              type="number" // Set input type to number
               fullWidth
             />
           </Grid>

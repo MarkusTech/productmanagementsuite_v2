@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { createCategory } from "../../../services/inventory/categoryService"; // Adjust the path as needed
+import { createCategory } from "../../../services/inventory/categoryService";
 import { TextField, Button, Grid, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import Swal from "sweetalert2";
 
 const CategoryCreateForm = ({ onCategoryCreated, closeForm }) => {
   const [formData, setFormData] = useState({
+    categoryCode: "",
     categoryName: "",
     description: "",
-    createdByID: 1, // Adjust this based on your authentication or default values
-    modifiedByID: 1, // Adjust this as well
+    createdByID: 1,
+    modifiedByID: 1,
   });
 
   const [error, setError] = useState(null);
@@ -26,9 +28,13 @@ const CategoryCreateForm = ({ onCategoryCreated, closeForm }) => {
     try {
       const response = await createCategory(formData);
       if (response.success) {
-        // Notify parent component that a category was created successfully
+        Swal.fire({
+          icon: "success",
+          title: "Category Created!",
+          text: "The new category has been successfully created.",
+        });
         onCategoryCreated();
-        closeForm(); // Close the form after successful creation
+        closeForm();
       } else {
         setError(response.message);
       }
@@ -39,7 +45,6 @@ const CategoryCreateForm = ({ onCategoryCreated, closeForm }) => {
 
   return (
     <div style={styles.formContainer}>
-      {/* Close Button */}
       <IconButton
         style={styles.closeButton}
         onClick={closeForm}
@@ -57,6 +62,16 @@ const CategoryCreateForm = ({ onCategoryCreated, closeForm }) => {
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              label="Category Code"
+              name="categoryCode"
+              value={formData.categoryCode}
+              onChange={handleChange}
+              required
+              fullWidth
+            />
+          </Grid>
           <Grid item xs={12}>
             <TextField
               label="Category Name"
@@ -96,7 +111,6 @@ const CategoryCreateForm = ({ onCategoryCreated, closeForm }) => {
   );
 };
 
-// Styles for the form and close button
 const styles = {
   formContainer: {
     position: "fixed",
@@ -117,7 +131,7 @@ const styles = {
     right: "10px",
   },
   submitButton: {
-    backgroundColor: "#3f51b5", // You can customize this color
+    backgroundColor: "#3f51b5",
   },
 };
 

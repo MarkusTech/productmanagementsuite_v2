@@ -1,10 +1,8 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5001/api/v1/categories";
-
 export const fetchCategories = async () => {
   try {
-    const response = await axios.get(API_URL);
+    const response = await axios.get("http://localhost:5001/api/v1/categories");
     return response.data.data;
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -14,7 +12,10 @@ export const fetchCategories = async () => {
 
 export const createCategory = async (categoryData) => {
   try {
-    const response = await axios.post(API_URL, categoryData);
+    const response = await axios.post(
+      "http://localhost:5001/api/v1/categories",
+      categoryData
+    );
     return {
       success: true,
       data: response.data,
