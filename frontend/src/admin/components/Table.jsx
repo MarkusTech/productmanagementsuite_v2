@@ -47,6 +47,7 @@ const Table = (props) => {
           onPageChange={selectPage}
         />
       )}
+      <br />
     </div>
   );
 };

@@ -44,7 +44,11 @@ const UserList = () => {
 
   const handleUserCreated = () => {
     loadUsers();
-    setShowCreateForm(false);
+    setShowCreateForm(false); // Close the form after user creation
+  };
+
+  const closeForm = () => {
+    setShowCreateForm(false); // Close the form manually
   };
 
   const handleEdit = (user) => {
@@ -62,7 +66,14 @@ const UserList = () => {
       <td>{item.phoneNumber}</td>
       <td>{item.address}</td>
       <td>{item.birthday}</td>
-      <td>{item.status ? "Active" : "Inactive"}</td>
+      <td
+        style={{
+          color: item.status ? "blue" : "red", // Conditionally set the color based on status
+          fontWeight: "bold",
+        }}
+      >
+        {item.status ? "Active" : "Inactive"}
+      </td>
       <td>
         <Button
           variant="contained"
@@ -91,7 +102,10 @@ const UserList = () => {
       <br />
 
       {showCreateForm && ( // Render the create form conditionally
-        <UserCreateForm onUserCreated={handleUserCreated} />
+        <UserCreateForm
+          onUserCreated={handleUserCreated}
+          closeForm={closeForm}
+        />
       )}
 
       <div className="row">
