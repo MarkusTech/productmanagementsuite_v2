@@ -4,7 +4,7 @@ import { fetchAdjustmentTypes } from "../../../services/inventory/adjustmentType
 import AdjustmentTypeCreateForm from "./AdjustmentTypeCreateForm";
 import { Button } from "@mui/material";
 
-const adjustmentTypeTableHead = ["ID", "Adjustment Type Name", "Action"]; // Added Action column
+const adjustmentTypeTableHead = ["ID", "Adjustment Type Name", "Action"];
 
 const renderHead = (item, index) => <th key={index}>{item}</th>;
 
@@ -12,7 +12,7 @@ const AdjustmentTypeList = () => {
   const [adjustmentTypes, setAdjustmentTypes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showCreateForm, setShowCreateForm] = useState(false); // Toggle for the create form
+  const [showCreateForm, setShowCreateForm] = useState(false);
 
   const loadAdjustmentTypes = async () => {
     try {
@@ -30,12 +30,12 @@ const AdjustmentTypeList = () => {
   }, []);
 
   const handleAdjustmentTypeCreated = () => {
-    loadAdjustmentTypes(); // Reload data after creating a new adjustment type
-    setShowCreateForm(false); // Close the form after creation
+    loadAdjustmentTypes();
+    setShowCreateForm(false);
   };
 
   const closeForm = () => {
-    setShowCreateForm(false); // Manually close form
+    setShowCreateForm(false);
   };
 
   const renderBody = (item, index) => (

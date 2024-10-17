@@ -28,7 +28,7 @@ const UserList = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
 
   const loadUsers = async () => {
-    setLoading(true); // Set loading to true before fetching data
+    setLoading(true);
     try {
       const data = await fetchUsers();
       setUsers(data);
@@ -45,16 +45,15 @@ const UserList = () => {
 
   const handleUserCreated = () => {
     loadUsers();
-    setShowCreateForm(false); // Close the form after user creation
+    setShowCreateForm(false);
   };
 
   const closeForm = () => {
-    setShowCreateForm(false); // Close the form manually
+    setShowCreateForm(false);
   };
 
   const handleEdit = (user) => {
     console.log("Editing user: ", user);
-    // Implement edit functionality if needed
   };
 
   const renderBody = (item, index) => (
@@ -70,7 +69,7 @@ const UserList = () => {
       <td>{item.birthday}</td>
       <td
         style={{
-          color: item.status ? "blue" : "red", // Conditionally set the color based on status
+          color: item.status ? "blue" : "red",
           fontWeight: "bold",
         }}
       >
@@ -100,7 +99,7 @@ const UserList = () => {
       </button>
       <br />
 
-      {showCreateForm && ( // Render the create form conditionally
+      {showCreateForm && (
         <UserCreateForm
           onUserCreated={handleUserCreated}
           closeForm={closeForm}
@@ -119,7 +118,7 @@ const UserList = () => {
                   headData={userTableHead}
                   renderHead={renderHead}
                   bodyData={users}
-                  renderBody={renderBody} // Pass renderBody as a prop
+                  renderBody={renderBody}
                 />
               )}
             </div>
