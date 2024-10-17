@@ -11,3 +11,13 @@ export const fetchInventoryAdjustments = async () => {
     throw error;
   }
 };
+
+export const createInventoryAdjustment = async (adjustmentData) => {
+  try {
+    const response = await axios.post(API_URL, adjustmentData);
+    return response.data; // Assuming your API returns a success message here
+  } catch (error) {
+    console.error("Error creating inventory adjustment:", error);
+    throw error;
+  }
+};
