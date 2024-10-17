@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { TextField, Button, Typography, Box, Grid, Alert } from "@mui/material";
 import { createUser } from "../../../services/auth/userService";
 
 const UserCreateForm = ({ onUserCreated }) => {
@@ -11,8 +12,11 @@ const UserCreateForm = ({ onUserCreated }) => {
     phoneNumber: "",
     address: "",
     birthday: "",
-    status: true,
+    status: "Active",
   });
+
+  const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,127 +28,147 @@ const UserCreateForm = ({ onUserCreated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
     try {
-      await createUser(formData); // Call the createUser service
-      alert("User created successfully");
-
-      // Call the onUserCreated callback to refresh the user list
+      await createUser(formData);
       onUserCreated();
-
-      // Reset the form after successful submission
-      setFormData({
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        roleID: "",
-        email: "",
-        phoneNumber: "",
-        address: "",
-        birthday: "",
-        status: true,
-      });
     } catch (error) {
-      console.error(error);
-      alert("Failed to create user");
+      setError(error.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>First Name:</label>
-        <input
-          type="text"
-          name="firstName"
-          value={formData.firstName}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Middle Name:</label>
-        <input
-          type="text"
-          name="middleName"
-          value={formData.middleName}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Last Name:</label>
-        <input
-          type="text"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Role ID:</label>
-        <input
-          type="text"
-          name="roleID"
-          value={formData.roleID}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Phone Number:</label>
-        <input
-          type="text"
-          name="phoneNumber"
-          value={formData.phoneNumber}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Address:</label>
-        <input
-          type="text"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Birthday:</label>
-        <input
-          type="date"
-          name="birthday"
-          value={formData.birthday}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Status:</label>
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-          required
-        >
-          <option value={true}>Active</option>
-          <option value={false}>Inactive</option>
-        </select>
-      </div>
-      <button type="submit">Create User</button>
-    </form>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        backgroundColor: "white",
+        padding: 3,
+        borderRadius: 2,
+        boxShadow: 3,
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: { xs: "90%", sm: "600px" },
+        marginTop: "20px", // Added margin-top
+      }}
+    >
+      <Typography variant="h5" align="center" gutterBottom>
+        Create New User
+      </Typography>
+
+      {error && (
+        <Alert severity="error" sx={{ marginBottom: 2 }}>
+          {error}
+        </Alert>
+      )}
+
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="First Name"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Middle Name"
+            name="middleName"
+            value={formData.middleName}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Last Name"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Role ID"
+            name="roleID"
+            value={formData.roleID}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Phone Number"
+            name="phoneNumber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Address"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Birthday"
+            name="birthday"
+            type="date"
+            value={formData.birthday}
+            onChange={handleChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+          />
+        </Grid>
+      </Grid>
+
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        fullWidth
+        sx={{ marginTop: 3 }}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Creating..." : "Create User"}
+      </Button>
+    </Box>
   );
 };
 
