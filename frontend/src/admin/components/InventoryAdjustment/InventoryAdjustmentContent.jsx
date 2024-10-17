@@ -6,6 +6,7 @@ const InventoryAdjustmentContent = () => {
     <main>
       <div>
         <InventoryAdjustmentList />
+        <br />
       </div>
     </main>
   );

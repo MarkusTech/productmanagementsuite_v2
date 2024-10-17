@@ -6,6 +6,7 @@ const AdjustmentTypeContent = () => {
     <main>
       <div>
         <AdjustmentTypeList />
+        <br />
       </div>
     </main>
   );

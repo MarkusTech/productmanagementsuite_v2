@@ -6,6 +6,7 @@ const CategoriesContent = () => {
     <main>
       <div>
         <CategoryList />
+        <br />
       </div>
     </main>
   );

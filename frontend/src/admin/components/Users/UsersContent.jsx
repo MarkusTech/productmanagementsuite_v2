@@ -6,6 +6,7 @@ const UsersContent = () => {
     <main>
       <div>
         <UserList />
+        <br />
       </div>
     </main>
   );

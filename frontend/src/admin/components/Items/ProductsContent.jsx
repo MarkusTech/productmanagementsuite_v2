@@ -6,6 +6,7 @@ const ProductsContent = () => {
     <main>
       <div>
         <ItemList />
+        <br />
       </div>
     </main>
   );

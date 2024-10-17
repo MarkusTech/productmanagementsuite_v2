@@ -6,6 +6,7 @@ const InventoryContent = () => {
     <main>
       <div>
         <InventoryList />
+        <br />
       </div>
     </main>
   );

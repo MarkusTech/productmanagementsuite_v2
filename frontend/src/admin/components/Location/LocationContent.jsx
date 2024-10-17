@@ -6,6 +6,7 @@ const LocationContent = () => {
     <main>
       <div>
         <LocationList />
+        <br />
       </div>
     </main>
   );
