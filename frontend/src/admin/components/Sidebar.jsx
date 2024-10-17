@@ -62,7 +62,7 @@ const Sidebar = ({ isClosed }) => {
         {/* Purchase Order */}
         <li onClick={togglePurchaseOrder}>
           <Link>
-            <i className="bx bxs-cog"></i>Purchase Order
+            <i className="bx bxs-shopping-bag"></i>Purchase Order
             <i
               className={`bx ${
                 isInventoryOpen ? "bx-chevron-up" : "bx-chevron-down"
@@ -73,28 +73,27 @@ const Sidebar = ({ isClosed }) => {
             <ul className="submenu">
               <li>
                 <Link to="/purchase-order">
-                  <i className="bx bx-cart"></i>Purchase Order
+                  <i className="bx bxs-shopping-bag"></i> Purchase Order
                 </Link>
               </li>
               <li>
                 <Link to="/po-item">
-                  <i className="bx bxs-box"></i>PO ITEM
+                  <i className="bx bxs-package"></i> PO Item
                 </Link>
               </li>
               <li>
                 <Link to="/po-receiving-item">
-                  <i className="bx bxs-cog"></i>PO Receiving Item
+                  <i className="bx bxs-truck"></i> PO Receiving Item
                 </Link>
               </li>
               <li>
                 <Link to="/po-receiving">
-                  <i className="bx bx-cog"></i> PO Receiving
+                  <i className="bx bxs-receipt"></i> PO Receiving
                 </Link>
               </li>
-
               <li>
                 <Link to="/supplier">
-                  <i className="bx bx-list-ul"></i> Supplier
+                  <i className="bx bxs-user"></i> Supplier
                 </Link>
               </li>
             </ul>
@@ -104,7 +103,7 @@ const Sidebar = ({ isClosed }) => {
         {/* Inventory Submenu */}
         <li onClick={toggleInventory}>
           <Link>
-            <i className="bx bxs-cog"></i>Inventory Setup
+            <i className="bx bxs-package"></i>Inventory Setup
             <i
               className={`bx ${
                 isInventoryOpen ? "bx-chevron-up" : "bx-chevron-down"
@@ -115,7 +114,7 @@ const Sidebar = ({ isClosed }) => {
             <ul className="submenu">
               <li>
                 <Link to="/inventory">
-                  <i className="bx bx-cart"></i>Inventory
+                  <i className="bx bxs-inbox"></i>Inventory
                 </Link>
               </li>
               <li>
@@ -125,18 +124,18 @@ const Sidebar = ({ isClosed }) => {
               </li>
               <li>
                 <Link to="/inventory-adjustment">
-                  <i className="bx bxs-cog"></i>Inventory Adjustment
+                  <i className="bx bxs-edit"></i>Inventory Adjustment
                 </Link>
               </li>
               <li>
                 <Link to="/adjustment-type">
-                  <i className="bx bx-cog"></i> Adjustment Type
+                  <i className="bx bxs-grid"></i> Adjustment Type
                 </Link>
               </li>
 
               <li>
                 <Link to="/adjustment-type-reason">
-                  <i className="bx bx-list-ul"></i> Adjustment Type Reason
+                  <i className="bx bxs-info-circle"></i> Adjustment Type Reason
                 </Link>
               </li>
               <li>
@@ -147,6 +146,7 @@ const Sidebar = ({ isClosed }) => {
             </ul>
           )}
         </li>
+
         {/* --------------------------------- */}
       </ul>
       <div className="logout-padding">
