@@ -180,18 +180,18 @@ const UserCreateForm = ({ onUserCreated, closeForm }) => {
 // Styles for the form and close button
 const styles = {
   formContainer: {
-    position: "fixed", // Changed to 'fixed' to center the form
-    top: "50%", // Center vertically
-    left: "50%", // Center horizontally
-    transform: "translate(-50%, -50%)", // Translate to perfectly center the form
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: "700px",
-    height: "550px", // Set a specific height
+    height: "550px",
     backgroundColor: "#fff",
     padding: "20px",
     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
     borderRadius: "10px",
-    zIndex: 1000, // Ensure it floats over other content
-    overflow: "auto", // Allow scrolling if content exceeds height
+    zIndex: 1000,
+    overflow: "auto",
   },
   closeButton: {
     position: "absolute",
