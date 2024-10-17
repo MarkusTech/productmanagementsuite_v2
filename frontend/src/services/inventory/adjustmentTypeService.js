@@ -11,3 +11,13 @@ export const fetchAdjustmentTypes = async () => {
     throw error;
   }
 };
+
+export const createAdjustmentType = async (adjustmentTypeData) => {
+  try {
+    const response = await axios.post(API_URL, adjustmentTypeData);
+    return response.data; // Assuming the API response will contain the created data
+  } catch (error) {
+    console.error("Error creating adjustment type:", error);
+    throw error;
+  }
+};
