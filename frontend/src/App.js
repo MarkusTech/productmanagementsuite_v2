@@ -12,6 +12,8 @@ import ContactPage from "./pages/contact/Contact";
 
 // admin
 import Home from "./admin/pages/Home";
+
+// Inventory
 import Inventory from "./admin/pages/Inventory";
 import Products from "./admin/pages/Products";
 import Categories from "./admin/pages/Categories";
@@ -25,6 +27,13 @@ import InventoryType from "./admin/pages/InventoryType";
 import Location from "./admin/pages/Location";
 import AdjustmentTypeReason from "./admin/pages/AdjustmentTypeReason";
 import AdjustmentType from "./admin/pages/AdjustmentType";
+
+// Purchase Order
+import PoItem from "./admin/pages/Po_Item";
+import PoReceivingItem from "./admin/pages/Po_ReceivingItem";
+import PoReceiving from "./admin/pages/Po_Receiving";
+import PoSupplier from "./admin/pages/Po_Supplier";
+import PoPurchaseOrder from "./admin/pages/Po_PurchaseOrder";
 
 function App() {
   const location = useLocation();
@@ -45,6 +54,7 @@ function App() {
         <Route path="*" element={<HomePage />} />
         {/* admin routes */}
         <Route path="/dashboard" element={<Home />} />
+        {/* Inventory */}
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/items" element={<Products />} />
         <Route path="/categories" element={<Categories />} />
@@ -61,6 +71,12 @@ function App() {
           path="/adjustment-type-reason"
           element={<AdjustmentTypeReason />}
         />
+        {/* Purchase Order */}
+        <Route path="/purchase-order" element={<PoPurchaseOrder />} />
+        <Route path="/po-item" element={<PoItem />} />
+        <Route path="/po-receiving-item" element={<PoReceivingItem />} />
+        <Route path="/po-receiving" element={<PoReceiving />} />
+        <Route path="/supplier" element={<PoSupplier />} />
       </Routes>
       <Toaster />
     </div>

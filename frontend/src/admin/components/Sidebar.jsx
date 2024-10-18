@@ -65,7 +65,7 @@ const Sidebar = ({ isClosed }) => {
             <i className="bx bxs-shopping-bag"></i>Purchase Order
             <i
               className={`bx ${
-                isInventoryOpen ? "bx-chevron-up" : "bx-chevron-down"
+                isPurchaseOrder ? "bx-chevron-up" : "bx-chevron-down"
               } submenu-toggle`}
             ></i>
           </Link>
