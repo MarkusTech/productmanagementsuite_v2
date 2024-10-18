@@ -124,8 +124,9 @@ const PurchaseOrderItemCreateForm = ({
                 color="primary"
                 type="submit"
                 style={styles.submitButton}
+                fullWidth // Add fullWidth prop here
               >
-                Create Purchase Order Item
+                Create Receiving Item
               </Button>
             </Grid>
           </Grid>

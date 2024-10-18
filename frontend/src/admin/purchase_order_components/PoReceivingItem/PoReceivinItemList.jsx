@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../components/Table";
-import data from "../../../data/purchaseOrder/poReceivingItem.json";
+import { fetchPoReceivingItems } from "../../../services/purchaseOrder/poReceivingItem";
+import PoReceivingItemCreateForm from "./PoReceivinItemCreateForm";
+import PoReceivingItemEditForm from "./PoReceivinItemUpdateForm";
+import { Button } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
 const tableHead = [
   "ID",
@@ -8,24 +12,97 @@ const tableHead = [
   "Unit Of Measurement",
   "Received Quantity",
   "Unit Cost",
+  "Action",
 ];
 
 const renderHead = (item, index) => <th key={index}>{item}</th>;
 
-const renderBody = (item, index) => (
-  <tr key={index}>
-    <td>{item.poReceivingItemID}</td>
-    <td>{item.itemID}</td>
-    <td>{item.uom}</td>
-    <td>{item.receivedQty}</td>
-    <td>{item.unitCost}</td>
-  </tr>
-);
+const PoReceivingItemList = () => {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editItem, setEditItem] = useState(null);
 
-const PoReceivinItemList = () => {
+  const loadItems = async () => {
+    try {
+      const data = await fetchPoReceivingItems();
+      setItems(data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadItems();
+  }, []);
+
+  const handleItemCreated = () => {
+    loadItems();
+    setShowCreateForm(false);
+  };
+
+  const handleEdit = (item) => {
+    setEditItem(item);
+    setShowEditForm(true);
+  };
+
+  const handleEditFormClose = () => {
+    setShowEditForm(false);
+    setEditItem(null);
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  const renderBody = (item, index) => (
+    <tr key={index}>
+      <td>{item.poReceivingItemID}</td>
+      <td>{item.itemID}</td>
+      <td>{item.uom}</td>
+      <td>{item.receivedQty}</td>
+      <td>{item.unitCost}</td>
+      <td>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleEdit(item)}
+          startIcon={<EditIcon />}
+        >
+          Edit
+        </Button>
+      </td>
+    </tr>
+  );
+
   return (
-    <div className="customers">
-      <h3 className="page-header">Purchase Order Receiving Item List</h3>
+    <div className="table-container">
+      <h3>Purchase Order Receiving Item List</h3>
+      <button
+        className="create-form-btn"
+        onClick={() => setShowCreateForm((prev) => !prev)}
+      >
+        + Create Receiving Item
+      </button>
+      <br />
+
+      {showCreateForm && (
+        <PoReceivingItemCreateForm
+          onItemCreated={handleItemCreated}
+          closeForm={() => setShowCreateForm(false)}
+        />
+      )}
+
+      {showEditForm && (
+        <PoReceivingItemEditForm
+          item={editItem}
+          onClose={handleEditFormClose}
+        />
+      )}
+
       <div className="row">
         <div className="col-12">
           <div className="card">
@@ -33,9 +110,9 @@ const PoReceivinItemList = () => {
               <Table
                 limit="10"
                 headData={tableHead}
-                renderHead={(item, index) => renderHead(item, index)}
-                bodyData={data}
-                renderBody={(item, index) => renderBody(item, index)}
+                renderHead={renderHead}
+                bodyData={items}
+                renderBody={renderBody}
               />
             </div>
           </div>
@@ -45,4 +122,4 @@ const PoReceivinItemList = () => {
   );
 };
 
-export default PoReceivinItemList;
+export default PoReceivingItemList;
