@@ -1,7 +1,15 @@
 import React from "react";
+import SupplierList from "./SupplierList";
 
 const SupplierContent = () => {
-  return <div>SupplierContent</div>;
+  return (
+    <main>
+      <div>
+        <SupplierList />
+        <br />
+      </div>
+    </main>
+  );
 };
 
 export default SupplierContent;

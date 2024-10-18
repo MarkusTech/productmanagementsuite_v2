@@ -1,7 +1,15 @@
 import React from "react";
+import PoReceivingList from "./PoReceivingList";
 
 const PoReceivingContent = () => {
-  return <div>PoReceivingContent</div>;
+  return (
+    <main>
+      <div>
+        <PoReceivingList />
+        <br />
+      </div>
+    </main>
+  );
 };
 
 export default PoReceivingContent;
