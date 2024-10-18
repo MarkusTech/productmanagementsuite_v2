@@ -1,22 +1,22 @@
 import axios from "axios";
 
-export const fetchPoReceivingItems = async () => {
+export const fetchPoReceiving = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:5001/api/v2/po-receiving-items"
+      "http://localhost:5001/api/v2/po-receiving"
     );
     return response.data.data;
   } catch (error) {
-    console.error("Error fetching purchase receiving items:", error);
+    console.error("Error fetching purchase receiving data:", error);
     throw error;
   }
 };
 
-export const createPoReceivingItem = async (poReceivingItemData) => {
+export const createPoReceiving = async (poReceivingData) => {
   try {
     const response = await axios.post(
-      "http://localhost:5001/api/v2/po-receiving-items",
-      poReceivingItemData
+      "http://localhost:5001/api/v2/po-receiving",
+      poReceivingData
     );
     return {
       success: true,
