@@ -29,3 +29,24 @@ export const createPurchaseOrderItem = async (purchaseOrderItemData) => {
     };
   }
 };
+
+// export const updatePurchaseOrderItem = async (
+//   purchaseOrderItemID,
+//   updatedData
+// ) => {
+//   try {
+//     const response = await axios.put(
+//       `http://localhost:5001/api/v2/purchase-order-items/${purchaseOrderItemID}`,
+//       updatedData
+//     );
+//     return {
+//       success: true,
+//       data: response.data,
+//     };
+//   } catch (error) {
+//     return {
+//       success: false,
+//       message: error.response?.data?.message || error.message,
+//     };
+//   }
+// };
