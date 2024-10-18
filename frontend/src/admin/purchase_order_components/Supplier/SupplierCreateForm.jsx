@@ -10,7 +10,7 @@ const SupplierCreateForm = ({ onSupplierCreated, closeForm }) => {
     contactDetails: "",
     address: "",
     email: "",
-    status: true, // Assuming the default status is active
+    status: true,
     createdByID: 1,
     modifiedByID: 1,
   });
@@ -28,15 +28,15 @@ const SupplierCreateForm = ({ onSupplierCreated, closeForm }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await createSupplier(formData); // Call the API to create a supplier
+      const response = await createSupplier(formData);
       if (response.success) {
         Swal.fire({
           icon: "success",
           title: "Supplier Created!",
           text: "The new supplier has been successfully created.",
         });
-        onSupplierCreated(); // Refresh the supplier list
-        closeForm(); // Close the form
+        onSupplierCreated();
+        closeForm();
       } else {
         setError(response.message);
       }
