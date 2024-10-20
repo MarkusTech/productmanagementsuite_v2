@@ -44,18 +44,55 @@ export class InventoryController {
   // Get all inventory records
   async getAllInventory(req: Request, res: Response): Promise<void> {
     try {
-      const inventory = await prisma.inventory.findMany();
+      const inventory = await prisma.inventory.findMany({
+        include: {
+          item: {
+            include: {
+              category: true, // Include category to get the category name
+            },
+          },
+          location: true, // Include location if needed
+        },
+      });
+
       logger.info("Fetched all inventory records");
+
+      const formattedInventory = inventory.map((inv) => ({
+        inventoryID: inv.inventoryID,
+        locationID: inv.locationID,
+        itemID: inv.itemID,
+        itemName: inv.item.itemName, // Get the item name
+        categoryName: inv.item.category.categoryName, // Get the category name
+        quantity: inv.quantity,
+        inventoryTypeID: inv.inventoryTypeID,
+        reOrderThreshold: inv.reOrderThreshold,
+        createdAt: inv.createdAt,
+        updatedAt: inv.updatedAt,
+      }));
 
       res.status(200).json({
         success: true,
-        data: inventory,
+        data: formattedInventory,
       });
     } catch (error) {
       logger.error(`Error fetching inventory: ${(error as Error).message}`);
       throw new CustomError("Error fetching inventory", 500);
     }
   }
+  // async getAllInventory(req: Request, res: Response): Promise<void> {
+  //   try {
+  //     const inventory = await prisma.inventory.findMany();
+  //     logger.info("Fetched all inventory records");
+
+  //     res.status(200).json({
+  //       success: true,
+  //       data: inventory,
+  //     });
+  //   } catch (error) {
+  //     logger.error(`Error fetching inventory: ${(error as Error).message}`);
+  //     throw new CustomError("Error fetching inventory", 500);
+  //   }
+  // }
 
   // Get inventory by ID
   async getInventoryById(req: Request, res: Response): Promise<void> {

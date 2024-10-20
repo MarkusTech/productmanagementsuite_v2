@@ -45,9 +45,11 @@ model Locations {
   description  String?
   status       Boolean  @default(true)
   createdByID  Int
-  modifiedByID Int
+  modifiedByID Int?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  inventory    Inventory[] @relation("InventoryLocations") // Added inverse relation
 }
 
 model Suppliers {
@@ -71,24 +73,28 @@ model Items {
   price        Float
   cost         Float
   image_url    String?
-  createdByID  Int // Creator of this item
+  createdByID  Int
   modifiedByID Int?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   status       Boolean  @default(true)
 
-  category     Categories @relation("CategoryItems", fields: [categoryID], references: [categoryID]) // Establish relationship
+  category     Categories @relation("CategoryItems", fields: [categoryID], references: [categoryID])
+  inventory    Inventory[] @relation("InventoryItems") // Added inverse relation
 }
 
 model Inventory {
-  inventoryID      Int      @id @default(autoincrement())
-  locationID       Int
-  itemID           Int
-  quantity         Int
-  inventoryTypeID  Int
-  reOrderThreshold String
+  inventoryID        Int      @id @default(autoincrement())
+  locationID        Int
+  itemID            Int
+  quantity          Int
+  inventoryTypeID   Int
+  reOrderThreshold   String
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+
+  item              Items       @relation("InventoryItems", fields: [itemID], references: [itemID])
+  location          Locations   @relation("InventoryLocations", fields: [locationID], references: [locationID])
 }
 
 model InventoryType {

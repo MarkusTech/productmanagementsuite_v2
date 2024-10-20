@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createInventory } from "../../../services/inventory/inventoryService"; // Ensure you have this function implemented
+import { createInventory } from "../../../services/inventory/inventoryService";
 import { TextField, Button, Grid, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Swal from "sweetalert2";
@@ -26,7 +26,7 @@ const InventoryCreateForm = ({ onInventoryCreated, closeForm }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await createInventory(formData); // Call the inventory creation service
+      const response = await createInventory(formData);
       if (response.success) {
         Swal.fire({
           icon: "success",
@@ -123,7 +123,7 @@ const InventoryCreateForm = ({ onInventoryCreated, closeForm }) => {
                 color="primary"
                 type="submit"
                 style={styles.submitButton}
-                fullWidth // Add this line
+                fullWidth
               >
                 Create Inventory Item
               </Button>

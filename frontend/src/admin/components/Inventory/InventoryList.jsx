@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Table from "../Table";
 import { fetchInventories } from "../../../services/inventory/inventoryService";
-import InventoryCreateForm from "./InventoryCreateForm"; // Import your create form component
-import InventoryEditForm from "./InventoryEditForm"; // Import your edit form component
+import InventoryCreateForm from "./InventoryCreateForm";
+import InventoryEditForm from "./InventoryEditForm";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
 const inventoryTableHead = [
   "ID",
+  "Inventory Type",
   "Location",
   "Item",
   "Quantity",
-  "Inventory Type",
   "Re-Order Threshold",
   "Action",
 ];
@@ -59,10 +59,10 @@ const InventoryList = () => {
   const renderBody = (item, index) => (
     <tr key={index}>
       <td>{item.inventoryID}</td>
+      <td>{item.inventoryTypeID}</td>
       <td>{item.locationID}</td>
       <td>{item.itemID}</td>
       <td>{item.quantity}</td>
-      <td>{item.inventoryTypeID}</td>
       <td>{item.reOrderThreshold}</td>
       <td>
         <Button
