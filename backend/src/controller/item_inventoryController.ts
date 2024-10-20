@@ -50,21 +50,18 @@ export class InventoryController {
             select: {
               itemID: true,
               itemName: true,
-              // Include other fields as needed
             },
           },
           location: {
             select: {
               locationID: true,
               locationName: true,
-              // Include other fields as needed
             },
           },
           inventoryType: {
             select: {
               inventoryTypeID: true,
               typeName: true,
-              // Include other fields as needed
             },
           },
         },
@@ -81,21 +78,6 @@ export class InventoryController {
       throw new CustomError("Error fetching inventory", 500);
     }
   }
-
-  // async getAllInventory(req: Request, res: Response): Promise<void> {
-  //   try {
-  //     const inventory = await prisma.inventory.findMany();
-  //     logger.info("Fetched all inventory records");
-
-  //     res.status(200).json({
-  //       success: true,
-  //       data: inventory,
-  //     });
-  //   } catch (error) {
-  //     logger.error(`Error fetching inventory: ${(error as Error).message}`);
-  //     throw new CustomError("Error fetching inventory", 500);
-  //   }
-  // }
 
   // Get inventory by ID
   async getInventoryById(req: Request, res: Response): Promise<void> {
