@@ -65,8 +65,8 @@ const InventoryAdjustmentList = () => {
   const renderBody = (item, index) => (
     <tr key={index}>
       <td>{item.adjustmentID}</td>
-      <td>{item.adjustmentTypeID}</td>
-      <td>{item.adjustmentReasonID}</td>
+      <td>{item.adjustmentType.typeName}</td>
+      <td>{item.adjustmentReason.reasonName}</td>
       <td>{item.inventoryID}</td>
       <td>{item.quantityAdjusted}</td>
       <td

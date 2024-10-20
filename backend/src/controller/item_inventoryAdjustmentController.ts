@@ -53,7 +53,14 @@ export class InventoryAdjustmentController {
   // Get all InventoryAdjustments
   async getAllInventoryAdjustments(req: Request, res: Response): Promise<void> {
     try {
-      const inventoryAdjustments = await prisma.inventoryAdjustment.findMany();
+      const inventoryAdjustments = await prisma.inventoryAdjustment.findMany({
+        include: {
+          inventory: true,
+          adjustmentType: true,
+          adjustmentReason: true,
+        },
+      });
+
       logger.info("Fetched all inventory adjustments");
 
       res.status(200).json({
