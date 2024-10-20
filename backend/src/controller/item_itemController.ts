@@ -58,14 +58,43 @@ export class ItemController {
   }
 
   // Get all items
+  // async getAllItems(req: Request, res: Response): Promise<void> {
+  //   try {
+  //     const items = await prisma.items.findMany();
+  //     logger.info("Fetched all items");
+
+  //     res.status(200).json({
+  //       success: true,
+  //       data: items,
+  //     });
+  //   } catch (error) {
+  //     logger.error(`Error fetching items: ${(error as Error).message}`);
+  //     throw new CustomError("Error fetching items", 500);
+  //   }
+  // }
+
   async getAllItems(req: Request, res: Response): Promise<void> {
     try {
-      const items = await prisma.items.findMany();
+      const items = await prisma.items.findMany({
+        include: {
+          category: {
+            select: {
+              categoryName: true, // Include categoryName in the response
+            },
+          },
+        },
+      });
       logger.info("Fetched all items");
+
+      // Map items to include categoryName
+      const itemsWithCategoryName = items.map((item) => ({
+        ...item,
+        categoryName: item.category?.categoryName || null, // Add categoryName to the item
+      }));
 
       res.status(200).json({
         success: true,
-        data: items,
+        data: itemsWithCategoryName,
       });
     } catch (error) {
       logger.error(`Error fetching items: ${(error as Error).message}`);

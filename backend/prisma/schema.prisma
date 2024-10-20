@@ -36,6 +36,7 @@ model Categories {
   status       Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  items        Items[]  @relation("CategoryItems") // Relation to Items
 }
 
 model Locations {
@@ -75,6 +76,8 @@ model Items {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   status       Boolean  @default(true)
+
+  category     Categories @relation("CategoryItems", fields: [categoryID], references: [categoryID]) // Establish relationship
 }
 
 model Inventory {

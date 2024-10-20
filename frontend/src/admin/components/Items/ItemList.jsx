@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "../Table";
-import { fetchItems } from "../../../services/inventory/itemService"; // Import the service
-import ItemCreateForm from "./ItemCreateForm"; // Import your create form
+import { fetchItems } from "../../../services/inventory/itemService";
+import ItemCreateForm from "./ItemCreateForm";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -61,7 +61,7 @@ const ItemList = () => {
       <td>{item.itemID}</td>
       <td>{item.itemCode}</td>
       <td>{item.itemName}</td>
-      <td>{item.categoryID}</td>
+      <td>{item.categoryName}</td>
       <td>{item.barcode}</td>
       <td>{item.description}</td>
       <td>{item.grams}</td>
