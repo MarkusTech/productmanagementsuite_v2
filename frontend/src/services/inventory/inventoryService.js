@@ -2,6 +2,8 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5001/api/v1/inventory";
 
+const API_BASE_URL = "http://localhost:5001/api/v1";
+
 // Fetches all inventories
 export const fetchInventories = async () => {
   try {
@@ -28,4 +30,19 @@ export const createInventory = async (inventoryData) => {
       message: error.response?.data?.message || error.message, // Return a user-friendly error message
     };
   }
+};
+
+export const fetchInventoryTypes = async () => {
+  const response = await axios.get(`${API_BASE_URL}/inventory-type`);
+  return response.data.data;
+};
+
+export const fetchLocations = async () => {
+  const response = await axios.get(`${API_BASE_URL}/locations`);
+  return response.data.data;
+};
+
+export const fetchItems = async () => {
+  const response = await axios.get(`${API_BASE_URL}/items`);
+  return response.data.data;
 };
