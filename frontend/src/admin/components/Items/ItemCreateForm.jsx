@@ -1,6 +1,16 @@
-import React, { useState } from "react";
-import { createItem } from "../../../services/inventory/itemService"; // Import the service
-import { TextField, Button, Grid, IconButton } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { createItem } from "../../../services/inventory/itemService";
+import { fetchCategories } from "../../../services/inventory/categoryService";
+import {
+  TextField,
+  Button,
+  Grid,
+  IconButton,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Swal from "sweetalert2";
 
@@ -18,11 +28,23 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
     createdByID: 1,
   });
 
+  const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const categoryList = await fetchCategories();
+        setCategories(categoryList);
+      } catch (err) {
+        console.error("Error loading categories:", err);
+      }
+    };
+    loadCategories();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]:
@@ -95,16 +117,28 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              label="Category ID"
-              name="categoryID"
-              value={formData.categoryID}
-              onChange={handleChange}
-              required
-              type="number" // Set input type to number
-              fullWidth
-            />
+            <FormControl fullWidth required>
+              <InputLabel id="category-label">Category</InputLabel>
+              <Select
+                labelId="category-label"
+                id="categoryID"
+                name="categoryID"
+                value={formData.categoryID}
+                onChange={handleChange}
+                label="Category"
+              >
+                {categories.map((category) => (
+                  <MenuItem
+                    key={category.categoryID}
+                    value={category.categoryID}
+                  >
+                    {category.categoryName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
+
           <Grid item xs={6}>
             <TextField
               label="Barcode"
