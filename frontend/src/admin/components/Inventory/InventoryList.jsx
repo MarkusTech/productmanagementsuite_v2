@@ -59,9 +59,9 @@ const InventoryList = () => {
   const renderBody = (item, index) => (
     <tr key={index}>
       <td>{item.inventoryID}</td>
-      <td>{item.inventoryTypeID}</td>
-      <td>{item.locationID}</td>
-      <td>{item.itemID}</td>
+      <td>{item.inventoryType.typeName}</td>
+      <td>{item.location.locationName}</td>
+      <td>{item.item.itemName}</td>
       <td>{item.quantity}</td>
       <td>{item.reOrderThreshold}</td>
       <td>
