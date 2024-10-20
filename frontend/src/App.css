@@ -162,13 +162,25 @@ body.dark {
 
 /* logout */
 .logout-padding {
-  padding-top: 350px; /* Existing top padding */
-  margin-top: 20px; /* Adjust this value for the desired gap */
+  padding-top: 350px;
+  margin-top: 20px;
 }
 
 .submenu-toggle {
-  margin-left: auto; /* Push the icon to the right */
+  margin-left: auto;
   cursor: pointer;
+}
+
+.status-completed {
+  color: green;
+}
+
+.status-pending {
+  color: yellow;
+}
+
+.status-rejected {
+  color: red;
 }
 
 .content {

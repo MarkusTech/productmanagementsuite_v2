@@ -9,9 +9,9 @@ import Swal from "sweetalert2";
 
 const inventoryAdjustmentTableHead = [
   "ID",
-  "Inventory",
   "Adjustment Type",
   "Adjustment Reason",
+  "Inventory",
   "Quantity Adjusted",
   "Status",
   "Action",
@@ -65,11 +65,24 @@ const InventoryAdjustmentList = () => {
   const renderBody = (item, index) => (
     <tr key={index}>
       <td>{item.adjustmentID}</td>
-      <td>{item.inventoryID}</td>
       <td>{item.adjustmentTypeID}</td>
       <td>{item.adjustmentReasonID}</td>
+      <td>{item.inventoryID}</td>
       <td>{item.quantityAdjusted}</td>
-      <td>{item.status}</td>
+      <td
+        style={{
+          color:
+            item.status === "Completed"
+              ? "green"
+              : item.status === "Pending"
+              ? "yellow"
+              : item.status === "Rejected"
+              ? "red"
+              : "inherit", // Default color if none match
+        }}
+      >
+        {item.status}
+      </td>
       <td>
         <Button
           variant="contained"
