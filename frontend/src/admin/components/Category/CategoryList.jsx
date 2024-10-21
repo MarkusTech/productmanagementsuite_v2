@@ -26,6 +26,7 @@ const CategoryList = () => {
   const [editCategoryID, setEditCategoryID] = useState(null);
 
   const loadCategories = async () => {
+    setLoading(true); // Set loading to true before fetching
     try {
       const data = await fetchCategories();
       setCategories(data);
@@ -55,9 +56,16 @@ const CategoryList = () => {
     setEditCategoryID(null);
   };
 
-  const handleCategoryUpdated = () => {
+  const handleCategoryUpdated = (updatedCategory) => {
+    // Update the specific category in the state
+    setCategories((prevCategories) =>
+      prevCategories.map((category) =>
+        category.categoryID === updatedCategory.categoryID
+          ? updatedCategory
+          : category
+      )
+    );
     handleEditFormClose();
-    loadCategories();
   };
 
   const renderBody = (item, index) => (

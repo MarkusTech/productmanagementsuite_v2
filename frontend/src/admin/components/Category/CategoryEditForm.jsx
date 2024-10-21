@@ -3,7 +3,16 @@ import {
   fetchCategoryById,
   updateCategory,
 } from "../../../services/inventory/categoryService";
-import { TextField, Button, Grid, IconButton } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Grid,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Swal from "sweetalert2";
 
@@ -51,9 +60,13 @@ const CategoryEditForm = ({ categoryID, onClose, onCategoryUpdated }) => {
           icon: "success",
           title: "Category Updated!",
           text: "The category has been successfully updated.",
+          confirmButtonText: "Okay",
+          customClass: {
+            confirmButton: "swal-confirm-button",
+          },
         });
-        onCategoryUpdated(); // Notify the parent component
-        onClose(); // Close the form
+        onCategoryUpdated(response.data);
+        onClose();
       } else {
         setError(response.message);
       }
@@ -108,6 +121,22 @@ const CategoryEditForm = ({ categoryID, onClose, onCategoryUpdated }) => {
               multiline
               rows={4}
             />
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel id="status-label">Status</InputLabel>
+              <Select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                labelId="status-label"
+                label="Status"
+                required
+              >
+                <MenuItem value={true}>Active</MenuItem>
+                <MenuItem value={false}>Inactive</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12}>
             <Grid container justifyContent="flex-end">
