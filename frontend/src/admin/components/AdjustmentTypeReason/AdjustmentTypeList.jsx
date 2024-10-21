@@ -6,7 +6,12 @@ import AdjustmentReasonEditForm from "./AdjustmentReasonUpdateForm";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
-const adjustmentReasonTableHead = ["ID", "Reason Name", "Action"];
+const adjustmentReasonTableHead = [
+  "ID",
+  "Reason Name",
+  "Description",
+  "Action",
+];
 
 const renderHead = (item, index) => <th key={index}>{item}</th>;
 
@@ -52,6 +57,7 @@ const AdjustmentTypeList = () => {
     <tr key={index}>
       <td>{item.adjustmentReasonID}</td>
       <td>{item.reasonName}</td>
+      <td>{item.description}</td>
       <td>
         <Button
           variant="contained"

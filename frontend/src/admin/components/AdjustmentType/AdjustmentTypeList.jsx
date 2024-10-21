@@ -4,7 +4,7 @@ import { fetchAdjustmentTypes } from "../../../services/inventory/adjustmentType
 import AdjustmentTypeCreateForm from "./AdjustmentTypeCreateForm";
 import { Button } from "@mui/material";
 
-const adjustmentTypeTableHead = ["ID", "Adjustment Type Name", "Action"];
+const adjustmentTypeTableHead = ["ID", "Adjustment Type Name", "Description", "Action"];
 
 const renderHead = (item, index) => <th key={index}>{item}</th>;
 
@@ -42,6 +42,7 @@ const AdjustmentTypeList = () => {
     <tr key={index}>
       <td>{item.adjustmentTypeID}</td>
       <td>{item.typeName}</td>
+      <td>{item.description}</td>
       <td>
         <Button variant="contained" color="primary">
           Edit
