@@ -65,7 +65,7 @@ const CategoryEditForm = ({ categoryID, onClose, onCategoryUpdated }) => {
             confirmButton: "swal-confirm-button",
           },
         });
-        onCategoryUpdated(response.data);
+        onCategoryUpdated();
         onClose();
       } else {
         setError(response.message);

@@ -56,15 +56,7 @@ const CategoryList = () => {
     setEditCategoryID(null);
   };
 
-  const handleCategoryUpdated = (updatedCategory) => {
-    // Update the specific category in the state
-    setCategories((prevCategories) =>
-      prevCategories.map((category) =>
-        category.categoryID === updatedCategory.categoryID
-          ? updatedCategory
-          : category
-      )
-    );
+  const handleCategoryUpdated = () => {
     handleEditFormClose();
     loadCategories();
   };
