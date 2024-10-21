@@ -26,7 +26,7 @@ const CategoryList = () => {
   const [editCategoryID, setEditCategoryID] = useState(null);
 
   const loadCategories = async () => {
-    setLoading(true); // Set loading to true before fetching
+    setLoading(true);
     try {
       const data = await fetchCategories();
       setCategories(data);
@@ -47,7 +47,7 @@ const CategoryList = () => {
   };
 
   const handleEdit = (category) => {
-    setEditCategoryID(category.categoryID); // Pass only the ID
+    setEditCategoryID(category.categoryID);
     setShowEditForm(true);
   };
 
@@ -66,6 +66,7 @@ const CategoryList = () => {
       )
     );
     handleEditFormClose();
+    loadCategories();
   };
 
   const renderBody = (item, index) => (
