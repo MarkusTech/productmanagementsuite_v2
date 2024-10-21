@@ -25,7 +25,7 @@ const AdjustmentTypeList = () => {
 
   const loadAdjustmentReasons = async () => {
     try {
-      const data = await fetchAdjustmentReasons(); // Fetch the adjustment reasons
+      const data = await fetchAdjustmentReasons();
       setAdjustmentReasons(data);
     } catch (error) {
       setError(error.message);
