@@ -8,13 +8,14 @@ const prisma = new PrismaClient();
 export class AdjustmentReasonController {
   // Create a new AdjustmentReason
   async createAdjustmentReason(req: Request, res: Response): Promise<void> {
-    const { reasonName, createdByID, modifiedByID } = req.body;
+    const { reasonName, description, createdByID, modifiedByID } = req.body;
 
     try {
       const newAdjustmentReason = await prisma.adjustmentReason.create({
         data: {
           reasonName,
-          createdByID,
+          description, 
+          createdByID, 
           modifiedByID,
         },
       });
@@ -32,7 +33,10 @@ export class AdjustmentReasonController {
       logger.error(
         `Error creating adjustment reason: ${(error as Error).message}`
       );
-      throw new CustomError("Error creating adjustment reason", 500);
+      res.status(500).json({
+        success: false,
+        message: "Error creating adjustment reason",
+      });
     }
   }
 

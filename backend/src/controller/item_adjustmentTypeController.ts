@@ -8,12 +8,13 @@ const prisma = new PrismaClient();
 export class AdjustmentTypeController {
   // Create a new AdjustmentType
   async createAdjustmentType(req: Request, res: Response): Promise<void> {
-    const { typeName, createdByID, modifiedByID } = req.body;
+    const { typeName, description, createdByID, modifiedByID } = req.body;
 
     try {
       const newAdjustmentType = await prisma.adjustmentType.create({
         data: {
           typeName,
+          description,
           createdByID,
           modifiedByID,
         },
