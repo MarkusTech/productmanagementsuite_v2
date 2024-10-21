@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 const AdjustmentTypeCreateForm = ({ onAdjustmentTypeCreated, closeForm }) => {
   const [formData, setFormData] = useState({
     typeName: "",
+    description: "",
     createdByID: 1, // Replace with your logic
     modifiedByID: null,
   });
@@ -60,6 +61,16 @@ const AdjustmentTypeCreateForm = ({ onAdjustmentTypeCreated, closeForm }) => {
               label="Adjustment Type Name"
               name="typeName"
               value={formData.typeName}
+              onChange={handleChange}
+              required
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Description"
+              name="description"
+              value={formData.description}
               onChange={handleChange}
               required
               fullWidth
