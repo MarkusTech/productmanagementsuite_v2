@@ -23,7 +23,7 @@ const CategoryList = () => {
   const [error, setError] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [editCategory, setEditCategory] = useState(null);
+  const [editCategoryID, setEditCategoryID] = useState(null);
 
   const loadCategories = async () => {
     try {
@@ -46,13 +46,18 @@ const CategoryList = () => {
   };
 
   const handleEdit = (category) => {
-    setEditCategory(category);
+    setEditCategoryID(category.categoryID); // Pass only the ID
     setShowEditForm(true);
   };
 
   const handleEditFormClose = () => {
     setShowEditForm(false);
-    setEditCategory(null);
+    setEditCategoryID(null);
+  };
+
+  const handleCategoryUpdated = () => {
+    handleEditFormClose();
+    loadCategories();
   };
 
   const renderBody = (item, index) => (
@@ -105,8 +110,9 @@ const CategoryList = () => {
 
       {showEditForm && (
         <CategoryEditForm
-          category={editCategory}
+          categoryID={editCategoryID}
           onClose={handleEditFormClose}
+          onCategoryUpdated={handleCategoryUpdated}
         />
       )}
 
@@ -119,7 +125,7 @@ const CategoryList = () => {
                 headData={categoryTableHead}
                 renderHead={renderHead}
                 bodyData={categories}
-                renderBody={renderBody} // Pass renderBody as a prop
+                renderBody={renderBody}
               />
             </div>
           </div>

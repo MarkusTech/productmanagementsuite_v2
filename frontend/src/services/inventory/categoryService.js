@@ -27,3 +27,18 @@ export const createCategory = async (categoryData) => {
     };
   }
 };
+
+export const fetchCategoryById = async (categoryID) => {
+  const response = await axios.get(
+    `http://localhost:5001/api/v1/categories/${categoryID}`
+  );
+  return response.data;
+};
+
+export const updateCategory = async (categoryID, updatedData) => {
+  const response = await axios.put(
+    `http://localhost:5001/api/v1/categories/${categoryID}`,
+    updatedData
+  );
+  return response.data;
+};

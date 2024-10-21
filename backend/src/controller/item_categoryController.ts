@@ -78,20 +78,36 @@ export class CategoryController {
     }
   }
 
-  // Update category
+  // Update category by ID
   async updateCategory(req: Request, res: Response): Promise<void> {
     const { categoryID } = req.params;
     const { categoryCode, categoryName, description, status } = req.body;
 
     try {
+      // Find the existing category to check if it exists
+      const existingCategory = await prisma.categories.findUnique({
+        where: { categoryID: parseInt(categoryID) },
+      });
+
+      if (!existingCategory) {
+        logger.warn(`Category with ID ${categoryID} not found`);
+        res.status(404).json({
+          success: false,
+          message: `Category with ID ${categoryID} not found`,
+        });
+        return;
+      }
+
+      // Prepare data for update, only update fields that are present in the request body
+      const updatedData: any = {};
+      if (categoryCode !== undefined) updatedData.categoryCode = categoryCode;
+      if (categoryName !== undefined) updatedData.categoryName = categoryName;
+      if (description !== undefined) updatedData.description = description;
+      if (status !== undefined) updatedData.status = status;
+
       const updatedCategory = await prisma.categories.update({
         where: { categoryID: parseInt(categoryID) },
-        data: {
-          categoryCode,
-          categoryName,
-          description,
-          status,
-        },
+        data: updatedData,
       });
 
       logger.info(`Category with ID ${categoryID} updated`);
@@ -103,7 +119,10 @@ export class CategoryController {
       });
     } catch (error) {
       logger.error(`Error updating category: ${(error as Error).message}`);
-      throw new CustomError("Error updating category", 500);
+      res.status(500).json({
+        success: false,
+        message: "Error updating category",
+      });
     }
   }
 
