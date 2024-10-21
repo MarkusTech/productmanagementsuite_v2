@@ -66,8 +66,8 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
           title: "Item Created!",
           text: "The item has been successfully created.",
         });
-        onItemCreated(); // Notify parent component that an item was created successfully
-        closeForm(); // Close the form after successful creation
+        onItemCreated();
+        closeForm();
       } else {
         setError(response.message);
       }
