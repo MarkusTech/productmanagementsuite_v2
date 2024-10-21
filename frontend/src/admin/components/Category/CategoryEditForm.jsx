@@ -144,7 +144,7 @@ const CategoryEditForm = ({ categoryID, onClose, onCategoryUpdated }) => {
                 variant="contained"
                 color="primary"
                 type="submit"
-                style={styles.submitButton}
+                fullWidth
               >
                 Update Category
               </Button>

@@ -99,7 +99,7 @@ const CategoryCreateForm = ({ onCategoryCreated, closeForm }) => {
                 variant="contained"
                 color="primary"
                 type="submit"
-                style={styles.submitButton}
+                fullWidth
               >
                 Create Category
               </Button>
