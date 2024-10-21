@@ -9,9 +9,10 @@ const AdjustmentReasonCreateForm = ({
   closeForm,
 }) => {
   const [formData, setFormData] = useState({
-    reasonName: "", // The field for adjustment reason name
-    createdByID: 1, // You may adjust this based on your user management
-    modifiedByID: 1, // You may adjust this based on your user management
+    reasonName: "",
+    description: "",
+    createdByID: 1,
+    modifiedByID: 1,
   });
 
   const [error, setError] = useState(null);
@@ -68,6 +69,16 @@ const AdjustmentReasonCreateForm = ({
               label="Reason Name"
               name="reasonName"
               value={formData.reasonName}
+              onChange={handleChange}
+              required
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Description"
+              name="description"
+              value={formData.description}
               onChange={handleChange}
               required
               fullWidth
