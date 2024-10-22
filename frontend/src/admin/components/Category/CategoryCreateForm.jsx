@@ -10,7 +10,7 @@ const CategoryCreateForm = ({ onCategoryCreated, closeForm }) => {
     categoryName: "",
     description: "",
     createdByID: 1,
-    modifiedByID: 1,
+    modifiedByID: null,
   });
 
   const [error, setError] = useState(null);
