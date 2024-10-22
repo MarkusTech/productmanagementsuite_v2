@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../Table";
 import { fetchUsers } from "../../../services/auth/userService";
 import UserCreateForm from "./userCreateForm";
+import UserEditForm from "./UserEditForm";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -26,6 +27,8 @@ const UserList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false); // State for showing edit form
+  const [selectedUserID, setSelectedUserID] = useState(null); // State for selected user ID
 
   const loadUsers = async () => {
     setLoading(true);
@@ -48,12 +51,23 @@ const UserList = () => {
     setShowCreateForm(false);
   };
 
-  const closeForm = () => {
+  const handleUserUpdated = () => {
+    loadUsers();
+    setShowEditForm(false); // Close the edit form after updating
+  };
+
+  const closeCreateForm = () => {
     setShowCreateForm(false);
   };
 
+  const closeEditForm = () => {
+    setShowEditForm(false);
+    setSelectedUserID(null); // Reset the selected user ID
+  };
+
   const handleEdit = (user) => {
-    console.log("Editing user: ", user);
+    setSelectedUserID(user.userID); // Set the selected user ID
+    setShowEditForm(true); // Show the edit form
   };
 
   const renderBody = (item, index) => (
@@ -102,7 +116,15 @@ const UserList = () => {
       {showCreateForm && (
         <UserCreateForm
           onUserCreated={handleUserCreated}
-          closeForm={closeForm}
+          closeForm={closeCreateForm}
+        />
+      )}
+
+      {showEditForm && selectedUserID && (
+        <UserEditForm
+          userID={selectedUserID} // Pass the selected user ID
+          onUserUpdated={handleUserUpdated} // Handle user update
+          closeForm={closeEditForm}
         />
       )}
 
