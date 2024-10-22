@@ -1,26 +1,50 @@
-import React, { useState } from "react";
-import { createInventoryAdjustment } from "../../../services/inventory/inventoryAdjustmentService";
-import { TextField, Button, Grid, IconButton } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {
+  createInventoryAdjustment,
+  fetchInventories,
+  fetchAdjustmentReasons,
+} from "../../../services/inventory/inventoryAdjustmentService";
+import { TextField, Button, Grid, IconButton, MenuItem } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Swal from "sweetalert2";
 
 const InventoryAdjustmentCreateForm = ({ onAdjustmentCreated, closeForm }) => {
   const [formData, setFormData] = useState({
-    inventoryID: 1,
-    adjustmentTypeID: 2,
-    adjustmentReasonID: 3,
-    quantityAdjusted: 10,
+    inventoryID: 0,
+    adjustmentTypeID: 1,
+    adjustmentReasonID: 0,
+    quantityAdjusted: 0,
     status: "Pending",
-    createdByID: 1,
+    createdByID: 1, // Can be updated based on your user authentication logic
   });
 
+  const [inventories, setInventories] = useState([]);
+  const [adjustmentReasons, setAdjustmentReasons] = useState([]);
   const [error, setError] = useState(null);
+
+  // Fetch data for dropdowns
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const inventoryData = await fetchInventories();
+        const adjustmentReasonData = await fetchAdjustmentReasons();
+
+        setInventories(inventoryData); // Assuming the data format is correct
+        setAdjustmentReasons(adjustmentReasonData);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setError("Failed to load data");
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: name === "quantityAdjusted" ? parseInt(value, 10) : value, // Parse quantity to number
     }));
   };
 
@@ -33,6 +57,10 @@ const InventoryAdjustmentCreateForm = ({ onAdjustmentCreated, closeForm }) => {
           icon: "success",
           title: "Adjustment Created!",
           text: "The new inventory adjustment has been successfully created.",
+          confirmButtonText: "Okay",
+          customClass: {
+            confirmButton: "swal-confirm-button",
+          },
         });
         onAdjustmentCreated();
         closeForm();
@@ -65,33 +93,44 @@ const InventoryAdjustmentCreateForm = ({ onAdjustmentCreated, closeForm }) => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              label="Inventory ID"
+              label="Inventory Item"
               name="inventoryID"
               value={formData.inventoryID}
               onChange={handleChange}
               required
               fullWidth
-            />
+              select // Make this a dropdown
+            >
+              {inventories.map((inventory) => (
+                <MenuItem
+                  key={inventory.inventoryID}
+                  value={inventory.inventoryID}
+                >
+                  {inventory.item.itemName} {/* Use itemName from inventory */}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
           <Grid item xs={12}>
             <TextField
-              label="Adjustment Type ID"
-              name="adjustmentTypeID"
-              value={formData.adjustmentTypeID}
-              onChange={handleChange}
-              required
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Adjustment Reason ID"
+              label="Adjustment Reason"
               name="adjustmentReasonID"
               value={formData.adjustmentReasonID}
               onChange={handleChange}
               required
               fullWidth
-            />
+              select // Make this a dropdown
+            >
+              {adjustmentReasons.map((reason) => (
+                <MenuItem
+                  key={reason.adjustmentReasonID}
+                  value={reason.adjustmentReasonID}
+                >
+                  {reason.reasonName}{" "}
+                  {/* Use reasonName for adjustment reasons */}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
           <Grid item xs={12}>
             <TextField

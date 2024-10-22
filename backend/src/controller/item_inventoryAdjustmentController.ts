@@ -18,6 +18,39 @@ export class InventoryAdjustmentController {
     } = req.body;
 
     try {
+      // Check if inventoryID exists
+      const inventory = await prisma.inventory.findUnique({
+        where: { inventoryID },
+      });
+      if (!inventory) {
+        res
+          .status(400)
+          .json({ success: false, message: "Inventory ID does not exist." });
+      }
+
+      // Check if adjustmentTypeID exists
+      const adjustmentType = await prisma.adjustmentType.findUnique({
+        where: { adjustmentTypeID },
+      });
+      if (!adjustmentType) {
+        res.status(400).json({
+          success: false,
+          message: "Adjustment Type ID does not exist.",
+        });
+      }
+
+      // Check if adjustmentReasonID exists
+      const adjustmentReason = await prisma.adjustmentReason.findUnique({
+        where: { adjustmentReasonID },
+      });
+      if (!adjustmentReason) {
+        res.status(400).json({
+          success: false,
+          message: "Adjustment Reason ID does not exist.",
+        });
+      }
+
+      // Create the new inventory adjustment
       const newInventoryAdjustment = await prisma.inventoryAdjustment.create({
         data: {
           inventoryID,
@@ -41,12 +74,18 @@ export class InventoryAdjustmentController {
     } catch (error: unknown) {
       if (error instanceof Error) {
         logger.error(`Error creating inventory adjustment: ${error.message}`);
-        throw new CustomError("Error creating inventory adjustment", 500);
+        res.status(500).json({
+          success: false,
+          message: "Error creating inventory adjustment",
+        });
+      } else {
+        logger.error(
+          "An unexpected error occurred while creating inventory adjustment"
+        );
+        res
+          .status(500)
+          .json({ success: false, message: "An unexpected error occurred" });
       }
-      logger.error(
-        "An unexpected error occurred while creating inventory adjustment"
-      );
-      throw new CustomError("An unexpected error occurred", 500);
     }
   }
 

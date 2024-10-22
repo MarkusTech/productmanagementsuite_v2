@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import Table from "../Table";
 import { fetchInventoryAdjustments } from "../../../services/inventory/inventoryAdjustmentService";
 import InventoryAdjustmentCreateForm from "./InventoryAdjustmentCreateForm";
-import InventoryAdjustmentEditForm from "./InventoryAdjustmentUpdateForm";
+import InventoryAdjustmentUpdateForm from "./InventoryAdjustmentUpdateForm"; // Changed the name to match your provided form
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import Swal from "sweetalert2";
 
 const inventoryAdjustmentTableHead = [
   "ID",
-  // "Adjustment Type",
   "Adjustment Reason",
   "Inventory",
   "Quantity Adjusted",
@@ -25,7 +24,7 @@ const InventoryAdjustmentList = () => {
   const [error, setError] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [editAdjustment, setEditAdjustment] = useState(null);
+  const [editAdjustmentId, setEditAdjustmentId] = useState(null);
 
   const loadInventoryAdjustments = async () => {
     try {
@@ -53,19 +52,28 @@ const InventoryAdjustmentList = () => {
   };
 
   const handleEdit = (adjustment) => {
-    setEditAdjustment(adjustment);
+    setEditAdjustmentId(adjustment.adjustmentID); // Set the adjustment ID for editing
     setShowEditForm(true);
   };
 
   const handleEditFormClose = () => {
     setShowEditForm(false);
-    setEditAdjustment(null);
+    setEditAdjustmentId(null);
+  };
+
+  const handleAdjustmentUpdated = () => {
+    loadInventoryAdjustments();
+    setShowEditForm(false);
+    Swal.fire({
+      icon: "success",
+      title: "Inventory Adjustment Updated!",
+      text: "The inventory adjustment has been successfully updated.",
+    });
   };
 
   const renderBody = (item, index) => (
     <tr key={index}>
       <td>{item.adjustmentID}</td>
-      {/* <td>{item.adjustmentType.typeName}</td> */}
       <td>{item.adjustmentReason.reasonName}</td>
       <td>{item.inventoryID}</td>
       <td>{item.quantityAdjusted}</td>
@@ -118,9 +126,10 @@ const InventoryAdjustmentList = () => {
       )}
 
       {showEditForm && (
-        <InventoryAdjustmentEditForm
-          adjustment={editAdjustment}
-          onClose={handleEditFormClose}
+        <InventoryAdjustmentUpdateForm
+          adjustmentId={editAdjustmentId} // Pass the adjustment ID for updating
+          onAdjustmentUpdated={handleAdjustmentUpdated}
+          closeForm={handleEditFormClose}
         />
       )}
 
