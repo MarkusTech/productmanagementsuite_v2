@@ -63,12 +63,13 @@ const ItemList = () => {
   };
 
   const handleItemUpdated = () => {
+    handleCloseEditForm();
     loadItems();
-    closeForm();
   };
 
   const handleCloseEditForm = () => {
     setShowEditForm(false);
+    loadItems();
   };
 
   const renderBody = (item, index) => (
