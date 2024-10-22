@@ -64,7 +64,6 @@ const ItemList = () => {
 
   const handleItemUpdated = () => {
     handleCloseEditForm();
-    loadItems();
   };
 
   const handleCloseEditForm = () => {

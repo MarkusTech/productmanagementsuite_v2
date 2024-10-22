@@ -87,7 +87,7 @@ const ItemEditForm = ({ itemID, onClose, onItemUpdated }) => {
             confirmButton: "swal-confirm-button",
           },
         });
-        onItemUpdated(); // Trigger the update for the list
+        onItemUpdated();
         onClose(); // Close the form after updating
       } else {
         setError(response.message);
