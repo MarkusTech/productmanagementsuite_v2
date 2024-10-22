@@ -34,6 +34,10 @@ const AdjustmentReasonCreateForm = ({
           icon: "success",
           title: "Adjustment Reason Created!",
           text: "The new adjustment reason has been successfully created.",
+          confirmButtonText: "Okay",
+          customClass: {
+            confirmButton: "swal-confirm-button",
+          },
         });
         onAdjustmentReasonCreated();
         closeForm();
