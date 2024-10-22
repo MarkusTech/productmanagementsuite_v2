@@ -29,7 +29,7 @@ const ItemList = () => {
   const [error, setError] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null); // Store the selected item for editing
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const loadItems = async () => {
     try {
@@ -54,16 +54,21 @@ const ItemList = () => {
   const closeForm = () => {
     setShowCreateForm(false);
     setShowEditForm(false);
+    setSelectedItem(null);
   };
 
   const handleEdit = (item) => {
     setSelectedItem(item);
-    setShowEditForm(true);
+    setShowEditForm(!showEditForm);
   };
 
   const handleItemUpdated = () => {
-    setShowEditForm(false);
     loadItems();
+    closeForm();
+  };
+
+  const handleCloseEditForm = () => {
+    setShowEditForm(false);
   };
 
   const renderBody = (item, index) => (
@@ -80,7 +85,7 @@ const ItemList = () => {
       <td>{item.cost}</td>
       <td
         style={{
-          color: item.status ? "blue" : "red", // Conditionally set the color based on status
+          color: item.status ? "blue" : "red",
           fontWeight: "bold",
         }}
       >
@@ -90,7 +95,7 @@ const ItemList = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleEdit(item)} // Handle edit button click
+          onClick={() => handleEdit(item)}
           startIcon={<EditIcon />}
         >
           Edit
@@ -107,27 +112,26 @@ const ItemList = () => {
       <h3>ITEM LIST</h3>
       <button
         className="create-form-btn"
-        onClick={() => setShowCreateForm((prev) => !prev)} // Toggle the create form visibility
+        onClick={() => setShowCreateForm((prev) => !prev)}
       >
         + Create Item
       </button>
       <br />
 
-      {showCreateForm && ( // Render the create form conditionally
+      {showCreateForm && (
         <ItemCreateForm
           onItemCreated={handleItemCreated}
           closeForm={closeForm}
         />
       )}
 
-      {showEditForm &&
-        selectedItem && ( // Render the edit form conditionally
-          <ItemEditForm
-            onItemUpdated={handleItemUpdated} // Pass the item updated callback
-            closeForm={closeForm} // Close the form handler
-            itemID={selectedItem.itemID} // Pass the selected item ID to edit
-          />
-        )}
+      {showEditForm && selectedItem && (
+        <ItemEditForm
+          onItemUpdated={handleItemUpdated}
+          onClose={handleCloseEditForm}
+          itemID={selectedItem.itemID}
+        />
+      )}
 
       <div className="row">
         <div className="col-12">
@@ -138,7 +142,7 @@ const ItemList = () => {
                 headData={itemTableHead}
                 renderHead={renderHead}
                 bodyData={items}
-                renderBody={renderBody} // Pass renderBody as a prop
+                renderBody={renderBody}
               />
             </div>
           </div>
