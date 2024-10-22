@@ -70,6 +70,10 @@ const InventoryCreateForm = ({ onInventoryCreated, closeForm }) => {
           icon: "success",
           title: "Inventory Created!",
           text: "The new inventory item has been successfully created.",
+          confirmButtonText: "Okay",
+          customClass: {
+            confirmButton: "swal-confirm-button",
+          },
         });
         onInventoryCreated();
         closeForm();

@@ -24,8 +24,9 @@ const InventoryList = () => {
   const [error, setError] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [editInventory, setEditInventory] = useState(null);
+  const [editInventory, setEditInventory] = useState(null); // State to hold the inventory to be edited
 
+  // Load inventories when the component mounts
   const loadInventories = async () => {
     try {
       const data = await fetchInventories();
@@ -41,21 +42,32 @@ const InventoryList = () => {
     loadInventories();
   }, []);
 
+  // Refresh inventory list after creating a new inventory item
   const handleInventoryCreated = () => {
     loadInventories();
     setShowCreateForm(false);
   };
 
+  // Handle editing an inventory
   const handleEdit = (inventory) => {
     setEditInventory(inventory);
-    setShowEditForm(true);
+    setShowEditForm(!showEditForm);
   };
 
+  // Refresh inventory list after an inventory item is updated
+  const handleInventoryUpdated = () => {
+    loadInventories();
+    setShowEditForm(false);
+    setEditInventory(null);
+  };
+
+  // Close the edit form
   const handleEditFormClose = () => {
     setShowEditForm(false);
     setEditInventory(null);
   };
 
+  // Render the table body rows
   const renderBody = (item, index) => (
     <tr key={index}>
       <td>{item.inventoryID}</td>
@@ -100,8 +112,9 @@ const InventoryList = () => {
 
       {showEditForm && (
         <InventoryEditForm
-          inventory={editInventory}
-          onClose={handleEditFormClose}
+          inventoryId={editInventory.inventoryID}
+          onInventoryUpdated={handleInventoryUpdated}
+          closeForm={handleEditFormClose}
         />
       )}
 
