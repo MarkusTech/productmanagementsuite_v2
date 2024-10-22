@@ -76,7 +76,7 @@ const AdjustmentTypeList = () => {
 
   return (
     <div className="table-container">
-      <h3>ADJUSTMENT REASON LIST</h3>
+      <h3>ADJUSTMENT REASON</h3>
       <button
         className="create-form-btn"
         onClick={() => setShowCreateForm((prev) => !prev)}
