@@ -26,11 +26,31 @@ export const createItem = async (itemData) => {
   }
 };
 
-export const updateItem = async () => {
+// Update an item by ID
+export const updateItem = async (itemID, itemData) => {
   try {
-    const response = await axios.put(API_URL);
+    const response = await axios.put(
+      `${API_URL}/api/v1/items/${itemID}`,
+      itemData
+    );
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || error.message,
+    };
+  }
+};
+
+// Fetch a single item by ID
+export const fetchItemByID = async (itemID) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/v1/items/${itemID}`);
     return response.data.data;
   } catch (error) {
-    throw new Error("Error fetching items: " + error.message);
+    throw new Error("Error fetching item by ID: " + error.message);
   }
 };

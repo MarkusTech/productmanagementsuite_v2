@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../Table";
 import { fetchItems } from "../../../services/inventory/itemService";
 import ItemCreateForm from "./ItemCreateForm";
+import ItemEditForm from "./ItemEditFrom";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -27,6 +28,8 @@ const ItemList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null); // Store the selected item for editing
 
   const loadItems = async () => {
     try {
@@ -45,15 +48,22 @@ const ItemList = () => {
 
   const handleItemCreated = () => {
     loadItems();
-    setShowCreateForm(false); // Close the form after item creation
+    setShowCreateForm(false);
   };
 
   const closeForm = () => {
-    setShowCreateForm(false); // Close the form manually
+    setShowCreateForm(false);
+    setShowEditForm(false);
   };
 
   const handleEdit = (item) => {
-    console.log("Editing item: ", item);
+    setSelectedItem(item);
+    setShowEditForm(true);
+  };
+
+  const handleItemUpdated = () => {
+    setShowEditForm(false);
+    loadItems();
   };
 
   const renderBody = (item, index) => (
@@ -80,7 +90,7 @@ const ItemList = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleEdit(item)}
+          onClick={() => handleEdit(item)} // Handle edit button click
           startIcon={<EditIcon />}
         >
           Edit
@@ -109,6 +119,15 @@ const ItemList = () => {
           closeForm={closeForm}
         />
       )}
+
+      {showEditForm &&
+        selectedItem && ( // Render the edit form conditionally
+          <ItemEditForm
+            onItemUpdated={handleItemUpdated} // Pass the item updated callback
+            closeForm={closeForm} // Close the form handler
+            itemID={selectedItem.itemID} // Pass the selected item ID to edit
+          />
+        )}
 
       <div className="row">
         <div className="col-12">
