@@ -29,7 +29,7 @@ const InventoryAdjustmentCreateForm = ({ onAdjustmentCreated, closeForm }) => {
         const inventoryData = await fetchInventories();
         const adjustmentReasonData = await fetchAdjustmentReasons();
 
-        setInventories(inventoryData); // Assuming the data format is correct
+        setInventories(inventoryData);
         setAdjustmentReasons(adjustmentReasonData);
       } catch (err) {
         console.error("Error fetching data:", err);

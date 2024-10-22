@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../Table";
 import { fetchInventoryAdjustments } from "../../../services/inventory/inventoryAdjustmentService";
 import InventoryAdjustmentCreateForm from "./InventoryAdjustmentCreateForm";
-import InventoryAdjustmentUpdateForm from "./InventoryAdjustmentUpdateForm"; // Changed the name to match your provided form
+import InventoryAdjustmentUpdateForm from "./InventoryAdjustmentUpdateForm";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import Swal from "sweetalert2";
@@ -41,8 +41,8 @@ const InventoryAdjustmentList = () => {
     loadInventoryAdjustments();
   }, []);
 
-  const handleInventoryAdjustmentCreated = () => {
-    loadInventoryAdjustments();
+  const handleInventoryAdjustmentCreated = (newAdjustment) => {
+    setInventoryAdjustments((prev) => [...prev, newAdjustment]); // Append new adjustment
     setShowCreateForm(false);
     Swal.fire({
       icon: "success",
