@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { fetchUserByID, updateUser } from "../../../services/auth/userService";
-import { TextField, Button, Grid, IconButton } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Grid,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Swal from "sweetalert2";
 
@@ -16,6 +25,7 @@ const UserEditForm = ({ userID, onUserUpdated, closeForm }) => {
     address: "",
     birthday: "",
     modifiedByID: 1,
+    status: true,
   });
 
   const [error, setError] = useState(null);
@@ -51,7 +61,11 @@ const UserEditForm = ({ userID, onUserUpdated, closeForm }) => {
         Swal.fire({
           icon: "success",
           title: "User Updated!",
+          confirmButtonText: "Okay",
           text: "The user has been successfully updated.",
+          customClass: {
+            confirmButton: "swal-confirm-button",
+          },
         });
         onUserUpdated();
         closeForm();
@@ -169,6 +183,22 @@ const UserEditForm = ({ userID, onUserUpdated, closeForm }) => {
               InputLabelProps={{ shrink: true }}
               fullWidth
             />
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel id="status-label">Status</InputLabel>
+              <Select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                labelId="status-label"
+                label="Status"
+                required
+              >
+                <MenuItem value={true}>Active</MenuItem>
+                <MenuItem value={false}>Inactive</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12}>
             <Grid container justifyContent="flex-end">
