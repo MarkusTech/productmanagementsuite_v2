@@ -14,7 +14,7 @@ const InventoryAdjustmentCreateForm = ({ onAdjustmentCreated, closeForm }) => {
     adjustmentTypeID: 1,
     adjustmentReasonID: 0,
     quantityAdjusted: 0,
-    status: "Pending",
+    status: "Pending", // Default status
     createdByID: 1, // Can be updated based on your user authentication logic
   });
 
@@ -57,10 +57,6 @@ const InventoryAdjustmentCreateForm = ({ onAdjustmentCreated, closeForm }) => {
           icon: "success",
           title: "Adjustment Created!",
           text: "The new inventory adjustment has been successfully created.",
-          confirmButtonText: "Okay",
-          customClass: {
-            confirmButton: "swal-confirm-button",
-          },
         });
         onAdjustmentCreated();
         closeForm();
@@ -151,7 +147,12 @@ const InventoryAdjustmentCreateForm = ({ onAdjustmentCreated, closeForm }) => {
               onChange={handleChange}
               required
               fullWidth
-            />
+              select // Make this a dropdown
+            >
+              {/* Dropdown options */}
+              <MenuItem value="Pending">Pending</MenuItem>
+              <MenuItem value="Completed">Completed</MenuItem>
+            </TextField>
           </Grid>
           <Grid item xs={12}>
             <Grid container justifyContent="flex-end">
