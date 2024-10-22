@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   fetchLocationByID,
   updateLocation,
-} from "../../../services/inventory/locationService"; // Ensure this import path is correct
+} from "../../../services/inventory/locationService";
 import {
   TextField,
   Button,
@@ -21,7 +21,7 @@ const LocationUpdateForm = ({ locationID, onLocationUpdated, closeForm }) => {
     locationName: "",
     description: "",
     status: true,
-    modifiedByID: 1, // Set this based on your user context if needed
+    modifiedByID: 1,
   });
 
   const [error, setError] = useState(null);
