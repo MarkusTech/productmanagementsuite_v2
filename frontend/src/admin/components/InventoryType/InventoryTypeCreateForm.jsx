@@ -8,7 +8,7 @@ const InventoryTypeCreateForm = ({ onInventoryTypeCreated, closeForm }) => {
   const [formData, setFormData] = useState({
     typeName: "",
     description: "",
-    createdByID: 1, // Default to 1, you can modify this as needed
+    createdByID: 1,
   });
 
   const [error, setError] = useState(null);
