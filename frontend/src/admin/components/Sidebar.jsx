@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 
 const Sidebar = ({ isClosed }) => {
   const [isInventoryOpen, setInventoryOpen] = useState(false);
-  // const [isPurchaseOrder, setPurchaseOrder] = useState(false);
+  const [isPurchaseOrder, setPurchaseOrder] = useState(false);
 
   const toggleInventory = () => {
     setInventoryOpen(!isInventoryOpen);
   };
 
-  // const togglePurchaseOrder = () => {
-  //   setPurchaseOrder(!isPurchaseOrder);
-  // };
+  const togglePurchaseOrder = () => {
+    setPurchaseOrder(!isPurchaseOrder);
+  };
 
   return (
     <div className={`sidebar ${isClosed ? "close" : ""}`}>
@@ -60,7 +60,7 @@ const Sidebar = ({ isClosed }) => {
         </li>
 
         {/* Purchase Order */}
-        {/* <li onClick={togglePurchaseOrder}>
+        <li onClick={togglePurchaseOrder}>
           <Link>
             <i className="bx bxs-shopping-bag"></i>Purchase Order
             <i
@@ -98,7 +98,7 @@ const Sidebar = ({ isClosed }) => {
               </li>
             </ul>
           )}
-        </li> */}
+        </li>
 
         {/* Inventory Submenu */}
         <li onClick={toggleInventory}>
