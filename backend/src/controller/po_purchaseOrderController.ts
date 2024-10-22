@@ -29,7 +29,7 @@ export class PurchaseOrderController {
           status,
           locationID,
           createdByID,
-          modifiedByID,
+          modifiedByID, // modifiedByID can be optional as per your model
         },
       });
 
@@ -45,10 +45,17 @@ export class PurchaseOrderController {
     } catch (error) {
       if (error instanceof Error) {
         logger.error(`Error creating purchase order: ${error.message}`);
-        throw new CustomError("Error creating purchase order", 500);
+        res.status(500).json({
+          success: false,
+          message: "Error creating purchase order",
+          error: error.message,
+        });
       } else {
         logger.error("Unknown error occurred during purchase order creation");
-        throw new CustomError("Unknown error", 500);
+        res.status(500).json({
+          success: false,
+          message: "Unknown error",
+        });
       }
     }
   }
