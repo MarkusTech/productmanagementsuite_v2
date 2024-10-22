@@ -10,5 +10,6 @@ router.get("/users", userController.getAllUsers);
 router.get("/users/:userID", userController.getUserById);
 router.put("/users/:userID", userController.updateUser);
 router.delete("/users/:userID", userController.deleteUser);
+router.get("/user-role", userController.getAllUserRoles);
 
 export default router;

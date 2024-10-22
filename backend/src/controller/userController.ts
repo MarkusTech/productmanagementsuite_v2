@@ -234,4 +234,24 @@ export class UserController {
       }
     }
   }
+
+  async getAllUserRoles(req: Request, res: Response): Promise<void> {
+    try {
+      const roles = await prisma.userRole.findMany();
+
+      logger.info(`Fetched all user roles`);
+      res.status(200).json({
+        success: true,
+        data: roles,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        logger.error(`Error fetching user roles: ${error.message}`);
+        throw new CustomError("Error fetching user roles", 500);
+      } else {
+        logger.error("Unknown error occurred while fetching user roles");
+        throw new CustomError("Unknown error", 500);
+      }
+    }
+  }
 }
