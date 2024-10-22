@@ -30,7 +30,7 @@ const CategoryEditForm = ({ categoryID, onClose, onCategoryUpdated }) => {
       try {
         const response = await fetchCategoryById(categoryID);
         if (response.success) {
-          setFormData(response.data); // Assuming response.data contains the category details
+          setFormData(response.data);
         }
       } catch (err) {
         setError(
