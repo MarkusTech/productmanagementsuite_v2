@@ -8,8 +8,8 @@ const LocationCreateForm = ({ onLocationCreated, closeForm }) => {
   const [formData, setFormData] = useState({
     locationName: "",
     description: "",
-    createdByID: 1, // Set this based on your user context if needed
-    modifiedByID: 1, // Set this based on your user context if needed
+    createdByID: 1,
+    modifiedByID: null,
   });
 
   const [error, setError] = useState(null);
