@@ -6,30 +6,15 @@ import LocationEditForm from "./LocationUpdateForm";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
-const tableHead = ["ID", "Location Name", "Description", "Status", "Action"];
+const locationTableHead = [
+  "Location ID",
+  "Location Name",
+  "Description",
+  "Status",
+  "Action",
+];
 
 const renderHead = (item, index) => <th key={index}>{item}</th>;
-
-const renderBody = (item, index, handleEdit) => (
-  <tr key={index}>
-    <td>{item.locationID}</td>
-    <td>{item.locationName}</td>
-    <td>{item.description}</td>
-    <td style={{ color: item.status ? "blue" : "red", fontWeight: "bold" }}>
-      {item.status ? "Active" : "Inactive"}
-    </td>
-    <td>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => handleEdit(item)}
-        startIcon={<EditIcon />}
-      >
-        Edit
-      </Button>
-    </td>
-  </tr>
-);
 
 const LocationList = () => {
   const [locations, setLocations] = useState([]);
@@ -37,9 +22,10 @@ const LocationList = () => {
   const [error, setError] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [editLocation, setEditLocation] = useState(null);
+  const [editLocationID, setEditLocationID] = useState(null);
 
   const loadLocations = async () => {
+    setLoading(true);
     try {
       const data = await fetchLocations();
       setLocations(data);
@@ -60,14 +46,49 @@ const LocationList = () => {
   };
 
   const handleEdit = (location) => {
-    setEditLocation(location);
-    setShowEditForm(true);
+    setEditLocationID(location.locationID);
+    setShowEditForm(!showEditForm);
   };
 
   const handleEditFormClose = () => {
-    setShowEditForm(false);
-    setEditLocation(null);
+    handleCloseEditForm();
+    setEditLocationID(null);
   };
+
+  const handleLocationUpdated = () => {
+    handleEditFormClose();
+    loadLocations();
+  };
+
+  const handleCloseEditForm = () => {
+    setShowEditForm(false);
+  };
+
+  const renderBody = (item, index) => (
+    <tr key={index}>
+      <td>{item.locationID}</td>
+      <td>{item.locationName}</td>
+      <td>{item.description}</td>
+      <td
+        style={{
+          color: item.status ? "blue" : "red",
+          fontWeight: "bold",
+        }}
+      >
+        {item.status ? "Active" : "Inactive"}
+      </td>
+      <td>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleEdit(item)}
+          startIcon={<EditIcon />}
+        >
+          Edit
+        </Button>
+      </td>
+    </tr>
+  );
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -92,8 +113,9 @@ const LocationList = () => {
 
       {showEditForm && (
         <LocationEditForm
-          location={editLocation}
-          onClose={handleEditFormClose}
+          locationID={editLocationID}
+          closeForm={handleEditFormClose}
+          onLocationUpdated={handleLocationUpdated}
         />
       )}
 
@@ -103,12 +125,10 @@ const LocationList = () => {
             <div className="card__body">
               <Table
                 limit="10"
-                headData={tableHead}
+                headData={locationTableHead}
                 renderHead={renderHead}
                 bodyData={locations}
-                renderBody={(item, index) =>
-                  renderBody(item, index, handleEdit)
-                } // Pass handleEdit to renderBody
+                renderBody={renderBody}
               />
             </div>
           </div>
