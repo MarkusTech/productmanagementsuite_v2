@@ -31,6 +31,10 @@ const LocationCreateForm = ({ onLocationCreated, closeForm }) => {
           icon: "success",
           title: "Location Created!",
           text: "The new location has been successfully created.",
+          confirmButtonText: "Okay",
+          customClass: {
+            confirmButton: "swal-confirm-button",
+          },
         });
         onLocationCreated();
         closeForm();
