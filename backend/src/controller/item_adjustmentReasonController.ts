@@ -14,8 +14,8 @@ export class AdjustmentReasonController {
       const newAdjustmentReason = await prisma.adjustmentReason.create({
         data: {
           reasonName,
-          description, 
-          createdByID, 
+          description,
+          createdByID,
           modifiedByID,
         },
       });
@@ -88,18 +88,19 @@ export class AdjustmentReasonController {
   // Update AdjustmentReason
   async updateAdjustmentReason(req: Request, res: Response): Promise<void> {
     const { adjustmentReasonID } = req.params;
-    const { reasonName, modifiedByID } = req.body;
+    const { reasonName, description, modifiedByID } = req.body;
 
     try {
       const updatedAdjustmentReason = await prisma.adjustmentReason.update({
         where: { adjustmentReasonID: parseInt(adjustmentReasonID) },
         data: {
           reasonName,
+          description,
           modifiedByID,
         },
       });
 
-      logger.info(`AdjustmentReason with ID ${adjustmentReasonID} updated`);
+      logger.info(`AdjustmentReason updated: ID ${adjustmentReasonID}`);
 
       res.status(200).json({
         success: true,
@@ -110,7 +111,10 @@ export class AdjustmentReasonController {
       logger.error(
         `Error updating adjustment reason: ${(error as Error).message}`
       );
-      throw new CustomError("Error updating adjustment reason", 500);
+      res.status(500).json({
+        success: false,
+        message: "Error updating adjustment reason",
+      });
     }
   }
 

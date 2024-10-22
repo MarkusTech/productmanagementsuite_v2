@@ -1,30 +1,45 @@
-import React from "react";
-
-const AdjustmentReasonUpdateForm = () => {
-  return <div>AdjustmentReasonUpdateForm</div>;
-};
-
-export default AdjustmentReasonUpdateForm;
-
-
-import React, { useState } from "react";
-import { createAdjustmentReason } from "../../../services/inventory/adjustmentReasonService"; // Adjust the import based on your service structure
+import React, { useState, useEffect } from "react";
+import {
+  fetchAdjustmentReasonById,
+  updateAdjustmentReason,
+} from "../../../services/inventory/adjustmentReasonService";
 import { TextField, Button, Grid, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Swal from "sweetalert2";
 
-const AdjustmentReasonCreateForm = ({
-  onAdjustmentReasonCreated,
+const AdjustmentReasonUpdateForm = ({
+  adjustmentReasonID,
+  onAdjustmentReasonUpdated,
   closeForm,
 }) => {
   const [formData, setFormData] = useState({
     reasonName: "",
     description: "",
-    createdByID: 1,
-    modifiedByID: 1,
+    modifiedByID: 1, // Adjust as necessary
   });
 
   const [error, setError] = useState(null);
+
+  // Fetch adjustment reason details when the component mounts
+  useEffect(() => {
+    const fetchAdjustmentReason = async () => {
+      try {
+        const data = await fetchAdjustmentReasonById(adjustmentReasonID);
+        setFormData({
+          reasonName: data.reasonName,
+          description: data.description,
+          modifiedByID: 1, // Adjust as necessary
+        });
+      } catch (err) {
+        setError(
+          err.message ||
+            "An error occurred while fetching the adjustment reason."
+        );
+      }
+    };
+
+    fetchAdjustmentReason();
+  }, [adjustmentReasonID]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,14 +52,21 @@ const AdjustmentReasonCreateForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await createAdjustmentReason(formData); // Make sure this function is defined in your service
+      const response = await updateAdjustmentReason(
+        adjustmentReasonID,
+        formData
+      );
       if (response.success) {
         Swal.fire({
           icon: "success",
-          title: "Adjustment Reason Created!",
-          text: "The new adjustment reason has been successfully created.",
+          title: "Adjustment Reason Updated!",
+          text: "The adjustment reason has been successfully updated.",
+          confirmButtonText: "Okay",
+          customClass: {
+            confirmButton: "swal-confirm-button",
+          },
         });
-        onAdjustmentReasonCreated();
+        onAdjustmentReasonUpdated();
         closeForm();
       } else {
         setError(response.message);
@@ -67,7 +89,7 @@ const AdjustmentReasonCreateForm = ({
       <h1
         style={{ marginTop: "20px", fontWeight: "bold", textAlign: "center" }}
       >
-        Create New Adjustment Reason
+        Update Adjustment Reason
       </h1>
       <br />
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
@@ -91,8 +113,11 @@ const AdjustmentReasonCreateForm = ({
               onChange={handleChange}
               required
               fullWidth
+              multiline
+              rows={4}
             />
           </Grid>
+
           <Grid item xs={12}>
             <Grid container justifyContent="flex-end">
               <Button
@@ -101,7 +126,7 @@ const AdjustmentReasonCreateForm = ({
                 type="submit"
                 style={styles.submitButton}
               >
-                Create Adjustment Reason
+                Update Adjustment Reason
               </Button>
             </Grid>
           </Grid>
@@ -137,7 +162,4 @@ const styles = {
   },
 };
 
-export default AdjustmentReasonCreateForm;
-
-
-remake the update same as the create form
+export default AdjustmentReasonUpdateForm;

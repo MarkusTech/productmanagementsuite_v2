@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Table from "../Table";
-import { fetchAdjustmentReasons } from "../../../services/inventory/adjustmentReasonService"; // Adjust the service name as needed
+import { fetchAdjustmentReasons } from "../../../services/inventory/adjustmentReasonService";
 import AdjustmentReasonCreateForm from "./AdjustmentReasonCreateForm";
-import AdjustmentReasonEditForm from "./AdjustmentReasonUpdateForm";
+import AdjustmentReasonUpdateForm from "./AdjustmentReasonUpdateForm";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -21,9 +21,10 @@ const AdjustmentTypeList = () => {
   const [error, setError] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [editAdjustmentReason, setEditAdjustmentReason] = useState(null);
+  const [editAdjustmentReasonID, setEditAdjustmentReasonID] = useState(null);
 
   const loadAdjustmentReasons = async () => {
+    setLoading(true);
     try {
       const data = await fetchAdjustmentReasons();
       setAdjustmentReasons(data);
@@ -44,13 +45,18 @@ const AdjustmentTypeList = () => {
   };
 
   const handleEdit = (reason) => {
-    setEditAdjustmentReason(reason);
-    setShowEditForm(true);
+    setEditAdjustmentReasonID(reason.adjustmentReasonID);
+    setShowEditForm(!showEditForm);
   };
 
   const handleEditFormClose = () => {
     setShowEditForm(false);
-    setEditAdjustmentReason(null);
+    setEditAdjustmentReasonID(null);
+  };
+
+  const handleAdjustmentReasonUpdated = () => {
+    loadAdjustmentReasons();
+    handleEditFormClose();
   };
 
   const renderBody = (item, index) => (
@@ -93,9 +99,10 @@ const AdjustmentTypeList = () => {
       )}
 
       {showEditForm && (
-        <AdjustmentReasonEditForm
-          adjustmentReason={editAdjustmentReason}
-          onClose={handleEditFormClose}
+        <AdjustmentReasonUpdateForm
+          adjustmentReasonID={editAdjustmentReasonID}
+          onAdjustmentReasonUpdated={handleAdjustmentReasonUpdated}
+          closeForm={handleEditFormClose}
         />
       )}
 
