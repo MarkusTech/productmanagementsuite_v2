@@ -48,7 +48,12 @@ const InventoryAdjustmentList = () => {
       icon: "success",
       title: "Inventory Adjustment Created!",
       text: "The new inventory adjustment has been successfully created.",
+      confirmButtonText: "Okay",
+      customClass: {
+        confirmButton: "swal-confirm-button",
+      },
     });
+    loadInventoryAdjustments();
   };
 
   const handleEdit = (adjustment) => {
