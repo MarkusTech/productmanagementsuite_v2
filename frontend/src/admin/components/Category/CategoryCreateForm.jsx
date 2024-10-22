@@ -32,6 +32,10 @@ const CategoryCreateForm = ({ onCategoryCreated, closeForm }) => {
           icon: "success",
           title: "Category Created!",
           text: "The new category has been successfully created.",
+          confirmButtonText: "Okay",
+          customClass: {
+            confirmButton: "swal-confirm-button",
+          },
         });
         onCategoryCreated();
         closeForm();
