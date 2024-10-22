@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import Table from "../Table";
 import { fetchInventoryTypes } from "../../../services/inventory/inventoryTypeService";
 import InventoryTypeCreateForm from "./InventoryTypeCreateForm";
-import InventoryTypeEditForm from "./InventoryTypeUpdateForm";
+import InventoryTypeUpdateForm from "./InventoryTypeUpdateForm";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
-const tableHead = [
-  "ID",
+const inventoryTypeTableHead = [
+  "Inventory Type ID",
   "Inventory Type Name",
   "Description",
   "Status",
@@ -22,9 +22,10 @@ const InventoryTypeList = () => {
   const [error, setError] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [editInventoryType, setEditInventoryType] = useState(null);
+  const [editInventoryTypeID, setEditInventoryTypeID] = useState(null);
 
   const loadInventoryTypes = async () => {
+    setLoading(true);
     try {
       const data = await fetchInventoryTypes();
       setInventoryTypes(data);
@@ -45,13 +46,18 @@ const InventoryTypeList = () => {
   };
 
   const handleEdit = (inventoryType) => {
-    setEditInventoryType(inventoryType);
+    setEditInventoryTypeID(inventoryType.inventoryTypeID);
     setShowEditForm(true);
   };
 
   const handleEditFormClose = () => {
     setShowEditForm(false);
-    setEditInventoryType(null);
+    setEditInventoryTypeID(null);
+  };
+
+  const handleInventoryTypeUpdated = () => {
+    handleEditFormClose();
+    loadInventoryTypes();
   };
 
   const renderBody = (item, index) => (
@@ -97,9 +103,10 @@ const InventoryTypeList = () => {
       )}
 
       {showEditForm && (
-        <InventoryTypeEditForm
-          inventoryType={editInventoryType}
+        <InventoryTypeUpdateForm
+          inventoryTypeID={editInventoryTypeID}
           onClose={handleEditFormClose}
+          onInventoryTypeUpdated={handleInventoryTypeUpdated}
         />
       )}
 
@@ -109,7 +116,7 @@ const InventoryTypeList = () => {
             <div className="card__body">
               <Table
                 limit="10"
-                headData={tableHead}
+                headData={inventoryTypeTableHead}
                 renderHead={renderHead}
                 bodyData={inventoryTypes}
                 renderBody={renderBody}
