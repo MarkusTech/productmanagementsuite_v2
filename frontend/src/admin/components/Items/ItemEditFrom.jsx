@@ -28,6 +28,7 @@ const ItemEditForm = ({ itemID, onClose, onItemUpdated }) => {
     uom: "",
     price: 0.0,
     cost: 0.0,
+    status: true,
   });
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
@@ -215,6 +216,22 @@ const ItemEditForm = ({ itemID, onClose, onItemUpdated }) => {
               required
               fullWidth
             />
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel id="status-label">Status</InputLabel>
+              <Select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                labelId="status-label"
+                label="Status"
+                required
+              >
+                <MenuItem value={true}>Active</MenuItem>
+                <MenuItem value={false}>Inactive</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12}>
             <Button variant="contained" color="primary" type="submit" fullWidth>
