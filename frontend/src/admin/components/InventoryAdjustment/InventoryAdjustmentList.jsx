@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 
 const inventoryAdjustmentTableHead = [
   "ID",
-  "Adjustment Type",
+  // "Adjustment Type",
   "Adjustment Reason",
   "Inventory",
   "Quantity Adjusted",
@@ -65,7 +65,7 @@ const InventoryAdjustmentList = () => {
   const renderBody = (item, index) => (
     <tr key={index}>
       <td>{item.adjustmentID}</td>
-      <td>{item.adjustmentType.typeName}</td>
+      {/* <td>{item.adjustmentType.typeName}</td> */}
       <td>{item.adjustmentReason.reasonName}</td>
       <td>{item.inventoryID}</td>
       <td>{item.quantityAdjusted}</td>
