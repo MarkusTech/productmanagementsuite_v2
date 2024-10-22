@@ -1,6 +1,15 @@
-import React, { useState } from "react";
-import { createUser } from "../../../services/auth/userService";
-import { TextField, Button, Grid, IconButton } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { createUser, fetchUserRoles } from "../../../services/auth/userService";
+import {
+  TextField,
+  Button,
+  Grid,
+  IconButton,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Swal from "sweetalert2";
 
@@ -20,7 +29,21 @@ const UserCreateForm = ({ onUserCreated, closeForm }) => {
     modifiedByID: 1,
   });
 
+  const [userRoles, setUserRoles] = useState([]); // State for user roles
   const [error, setError] = useState(null);
+
+  // Fetch user roles on component mount
+  useEffect(() => {
+    const loadUserRoles = async () => {
+      try {
+        const roles = await fetchUserRoles();
+        setUserRoles(roles);
+      } catch (err) {
+        setError("Failed to fetch user roles");
+      }
+    };
+    loadUserRoles();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,6 +62,10 @@ const UserCreateForm = ({ onUserCreated, closeForm }) => {
           icon: "success",
           title: "User Created!",
           text: "The new user has been successfully created.",
+          confirmButtonText: "Okay",
+          customClass: {
+            confirmButton: "swal-confirm-button",
+          },
         });
         onUserCreated();
         closeForm();
@@ -99,14 +126,22 @@ const UserCreateForm = ({ onUserCreated, closeForm }) => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              label="Role ID"
-              name="roleID"
-              value={formData.roleID}
-              onChange={handleChange}
-              required
-              fullWidth
-            />
+            <FormControl fullWidth required>
+              <InputLabel>Role</InputLabel>
+              <Select
+                name="roleID"
+                value={formData.roleID}
+                onChange={handleChange}
+                label={"Role"}
+              >
+                {userRoles.map((role) => (
+                  <MenuItem key={role.roleID} value={role.roleID}>
+                    {role.roleName}{" "}
+                    {/* Adjust this based on your role object structure */}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={6}>
             <TextField
