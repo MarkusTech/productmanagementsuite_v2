@@ -4,6 +4,17 @@ import process from "process";
 const prisma = new PrismaClient();
 
 async function main() {
+  // Seed User Roles
+  const roles = await Promise.all(
+    Array.from({ length: 4 }, (_, i) =>
+      prisma.userRole.create({
+        data: {
+          roleName: `Role ${i + 1}`,
+        },
+      })
+    )
+  );
+
   // Seed Adjustment Types
   const adjustmentTypes = await Promise.all(
     Array.from({ length: 10 }, (_, i) =>
@@ -38,7 +49,7 @@ async function main() {
           firstName: `FirstName${i + 1}`,
           middleName: `MiddleName${i + 1}`,
           lastName: `LastName${i + 1}`,
-          roleID: (i % 5) + 1,
+          roleID: (i % roles.length) + 1, // Use the length of roles
           username: `user${i + 1}`,
           email: `user${i + 1}@example.com`,
           password: `password${i + 1}`,

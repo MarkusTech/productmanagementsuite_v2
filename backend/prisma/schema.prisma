@@ -25,6 +25,15 @@ model Users {
   modifiedByID Int
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  // Relation field to UserRole
+  role         UserRole @relation("UserRoleUsers", fields: [roleID], references: [roleID])
+}
+
+model UserRole {
+  roleID   Int      @id @default(autoincrement())
+  roleName String   @unique
+  users    Users[]  @relation("UserRoleUsers") // Updated relation name
 }
 
 model Categories {
