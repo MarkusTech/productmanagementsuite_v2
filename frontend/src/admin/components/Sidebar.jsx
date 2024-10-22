@@ -127,15 +127,14 @@ const Sidebar = ({ isClosed }) => {
                   <i className="bx bxs-edit"></i>Inventory Adjustment
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/adjustment-type">
                   <i className="bx bxs-grid"></i> Adjustment Type
                 </Link>
-              </li>
-
+              </li> */}
               <li>
                 <Link to="/adjustment-type-reason">
-                  <i className="bx bxs-info-circle"></i> Adjustment Type Reason
+                  <i className="bx bxs-info-circle"></i> Adjustment Reason
                 </Link>
               </li>
               <li>
