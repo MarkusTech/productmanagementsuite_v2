@@ -14,7 +14,7 @@ export class UserController {
       firstName: Joi.string().min(2).max(25).required(),
       middleName: Joi.string().max(25).allow(null, ""),
       lastName: Joi.string().min(2).max(25).required(),
-      roleID: Joi.number().required(), // roleID should be a number
+      roleID: Joi.number().required(),
       username: Joi.string().min(2).max(25).required(),
       email: Joi.string().email().required(),
       password: Joi.string().min(6).required(),
@@ -29,14 +29,14 @@ export class UserController {
     if (error) {
       res
         .status(400)
-        .json({ success: false, message: error.details[0].message }); // Add return to stop further execution
+        .json({ success: false, message: error.details[0].message });
     }
 
     const {
       firstName,
       middleName,
       lastName,
-      roleID, // roleID should be passed as a number
+      roleID,
       username,
       email,
       password,
@@ -59,7 +59,7 @@ export class UserController {
         res.status(400).json({
           success: false,
           message: "User with this email already exists.",
-        }); // Add return to stop further execution
+        });
       }
 
       // Hash password
@@ -71,7 +71,7 @@ export class UserController {
           firstName,
           middleName,
           lastName,
-          roleID: parseInt(roleID, 10), // Ensure roleID is an integer
+          roleID: parseInt(roleID, 10),
           username,
           email,
           password: hashedPassword,
@@ -91,16 +91,15 @@ export class UserController {
         user: newUser,
       });
     } catch (error) {
-      // Type assertion to specify error type
       if (error instanceof Error) {
         logger.error(`Error creating user: ${error.message}`);
         res
           .status(500)
-          .json({ success: false, message: "Error creating user" }); // Add return to stop further execution
+          .json({ success: false, message: "Error creating user" });
       }
 
       logger.error("Unknown error occurred during user creation");
-      res.status(500).json({ success: false, message: "Unknown error" }); // Add return to stop further execution
+      res.status(500).json({ success: false, message: "Unknown error" });
     }
   }
 
