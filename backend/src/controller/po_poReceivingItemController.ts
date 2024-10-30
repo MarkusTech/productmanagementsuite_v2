@@ -43,7 +43,12 @@ export class PoReceivingItemController {
   // Get all poReceivingItems
   async getAllPoReceivingItems(req: Request, res: Response): Promise<void> {
     try {
-      const poReceivingItems = await prisma.poReceivingItem.findMany();
+      const poReceivingItems = await prisma.poReceivingItem.findMany({
+        include: {
+          item: true, // Include related item data
+        },
+      });
+
       logger.info("Fetched all PO receiving items");
 
       res.status(200).json({

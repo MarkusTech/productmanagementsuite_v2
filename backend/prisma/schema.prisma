@@ -87,8 +87,9 @@ model Items {
   updatedAt    DateTime @updatedAt
   status       Boolean  @default(true)
 
-  category  Categories  @relation("CategoryItems", fields: [categoryID], references: [categoryID]) // Establish relationship
-  inventory Inventory[] @relation("InventoryItems") // Added inverse relation
+  category       Categories        @relation("CategoryItems", fields: [categoryID], references: [categoryID]) // Establish relationship
+  inventory      Inventory[]       @relation("InventoryItems") // Added inverse relation
+  receivingItems poReceivingItem[] @relation("ItemPoReceivingItems") // Added inverse relation
 }
 
 model Inventory {
@@ -195,6 +196,8 @@ model poReceivingItem {
   unitCost          Float
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+
+  item Items @relation("ItemPoReceivingItems", fields: [itemID], references: [itemID]) // Establish relationship
 }
 
 model poReceiving {

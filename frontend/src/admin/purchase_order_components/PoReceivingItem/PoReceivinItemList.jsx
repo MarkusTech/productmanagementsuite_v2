@@ -61,7 +61,7 @@ const PoReceivingItemList = () => {
   const renderBody = (item, index) => (
     <tr key={index}>
       <td>{item.poReceivingItemID}</td>
-      <td>{item.itemID}</td>
+      <td>{item.item.itemName}</td>
       <td>{item.uom}</td>
       <td>{item.receivedQty}</td>
       <td>{item.unitCost}</td>
