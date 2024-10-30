@@ -63,7 +63,12 @@ export class PurchaseOrderController {
   // Get all PurchaseOrders
   async getAllPurchaseOrders(req: Request, res: Response): Promise<void> {
     try {
-      const purchaseOrders = await prisma.purchaseOrder.findMany();
+      const purchaseOrders = await prisma.purchaseOrder.findMany({
+        include: {
+          supplier: true, // Include supplier details
+          location: true, // Include location details
+        },
+      });
       logger.info("Fetched all purchase orders");
 
       res.status(200).json({

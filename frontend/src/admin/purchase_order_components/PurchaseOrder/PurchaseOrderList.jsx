@@ -61,8 +61,8 @@ const PurchaseOrderList = () => {
     <tr key={index}>
       <td>{item.poID}</td>
       <td>{item.poNumber}</td>
-      <td>{item.supplierID}</td>
-      <td>{item.locationID}</td>
+      <td>{item.supplier.supplierName}</td>
+      <td>{item.location.locationName}</td>
       <td>{item.orderDate}</td>
       <td>{item.expectedDeliverDate}</td>
       <td>{item.status}</td>

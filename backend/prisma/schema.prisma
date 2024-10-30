@@ -57,7 +57,8 @@ model Locations {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  inventory Inventory[] @relation("InventoryLocations") // Added inverse relation
+  inventory      Inventory[]     @relation("InventoryLocations") // Added inverse relation
+  purchaseOrders PurchaseOrder[] @relation("LocationOrders")
 }
 
 model Suppliers {
@@ -175,6 +176,9 @@ model PurchaseOrder {
   modifiedByID        Int?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
+
+  supplier poSupplier @relation("SupplierOrders", fields: [supplierID], references: [supplierID])
+  location Locations  @relation("LocationOrders", fields: [locationID], references: [locationID])
 }
 
 model PurchaseOrderItem {
@@ -224,4 +228,6 @@ model poSupplier {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   status         Boolean  @default(true)
+
+  purchaseOrders PurchaseOrder[] @relation("SupplierOrders")
 }
