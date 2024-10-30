@@ -27,13 +27,13 @@ model Users {
   updatedAt    DateTime @updatedAt
 
   // Relation field to UserRole
-  role         UserRole @relation("UserRoleUsers", fields: [roleID], references: [roleID])
+  role UserRole @relation("UserRoleUsers", fields: [roleID], references: [roleID])
 }
 
 model UserRole {
-  roleID   Int      @id @default(autoincrement())
-  roleName String   @unique
-  users    Users[]  @relation("UserRoleUsers") // Updated relation name
+  roleID   Int     @id @default(autoincrement())
+  roleName String  @unique
+  users    Users[] @relation("UserRoleUsers") // Updated relation name
 }
 
 model Categories {
@@ -57,7 +57,7 @@ model Locations {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  inventory    Inventory[] @relation("InventoryLocations") // Added inverse relation
+  inventory Inventory[] @relation("InventoryLocations") // Added inverse relation
 }
 
 model Suppliers {
@@ -87,25 +87,25 @@ model Items {
   updatedAt    DateTime @updatedAt
   status       Boolean  @default(true)
 
-  category     Categories @relation("CategoryItems", fields: [categoryID], references: [categoryID]) // Establish relationship
-  inventory    Inventory[] @relation("InventoryItems") // Added inverse relation
+  category  Categories  @relation("CategoryItems", fields: [categoryID], references: [categoryID]) // Establish relationship
+  inventory Inventory[] @relation("InventoryItems") // Added inverse relation
 }
 
 model Inventory {
-  inventoryID        Int                  @id @default(autoincrement())
-  locationID        Int
-  itemID            Int
-  quantity          Int
-  inventoryTypeID   Int
-  reOrderThreshold   String
-  createdAt         DateTime             @default(now())
-  updatedAt         DateTime             @updatedAt
+  inventoryID      Int      @id @default(autoincrement())
+  locationID       Int
+  itemID           Int
+  quantity         Int
+  inventoryTypeID  Int
+  reOrderThreshold String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
-  item              Items                 @relation("InventoryItems", fields: [itemID], references: [itemID])
-  location          Locations             @relation("InventoryLocations", fields: [locationID], references: [locationID])
-  inventoryType     InventoryType         @relation("InventoryTypeInventories", fields: [inventoryTypeID], references: [inventoryTypeID]) // Added inverse relation
+  item          Items         @relation("InventoryItems", fields: [itemID], references: [itemID])
+  location      Locations     @relation("InventoryLocations", fields: [locationID], references: [locationID])
+  inventoryType InventoryType @relation("InventoryTypeInventories", fields: [inventoryTypeID], references: [inventoryTypeID]) // Added inverse relation
 
-  adjustments       InventoryAdjustment[] @relation("InventoryAdjustments") // One-to-many relation
+  adjustments InventoryAdjustment[] @relation("InventoryAdjustments") // One-to-many relation
 }
 
 model InventoryType {
@@ -118,48 +118,48 @@ model InventoryType {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  inventories     Inventory[] @relation("InventoryTypeInventories") // Inverse relation      
+  inventories Inventory[] @relation("InventoryTypeInventories") // Inverse relation      
 }
 
 model InventoryAdjustment {
-  adjustmentID       Int                  @id @default(autoincrement())
+  adjustmentID       Int      @id @default(autoincrement())
   inventoryID        Int
-  adjustmentTypeID   Int                  // Foreign key relation without relation attribute
-  adjustmentReasonID Int                  // Foreign key relation without relation attribute
-  quantityAdjusted    Int
+  adjustmentTypeID   Int // Foreign key relation without relation attribute
+  adjustmentReasonID Int // Foreign key relation without relation attribute
+  quantityAdjusted   Int
   status             String
   createdByID        Int
   modifiedByID       Int?
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 
-  inventory         Inventory             @relation("InventoryAdjustments", fields: [inventoryID], references: [inventoryID]) // Foreign key relation
-  adjustmentType    AdjustmentType        @relation("AdjustmentTypeAdjustments", fields: [adjustmentTypeID], references: [adjustmentTypeID]) // Foreign key relation
-  adjustmentReason  AdjustmentReason      @relation("AdjustmentReasonAdjustments", fields: [adjustmentReasonID], references: [adjustmentReasonID]) // Foreign key relation
+  inventory        Inventory        @relation("InventoryAdjustments", fields: [inventoryID], references: [inventoryID]) // Foreign key relation
+  adjustmentType   AdjustmentType   @relation("AdjustmentTypeAdjustments", fields: [adjustmentTypeID], references: [adjustmentTypeID]) // Foreign key relation
+  adjustmentReason AdjustmentReason @relation("AdjustmentReasonAdjustments", fields: [adjustmentReasonID], references: [adjustmentReasonID]) // Foreign key relation
 }
 
 model AdjustmentType {
-  adjustmentTypeID Int                  @id @default(autoincrement())
+  adjustmentTypeID Int      @id @default(autoincrement())
   typeName         String
-  description     String?
+  description      String?
   createdByID      Int
   modifiedByID     Int?
-  createdAt        DateTime             @default(now())
-  updatedAt        DateTime             @updatedAt
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
-  adjustments      InventoryAdjustment[] @relation("AdjustmentTypeAdjustments") // One-to-many relation
+  adjustments InventoryAdjustment[] @relation("AdjustmentTypeAdjustments") // One-to-many relation
 }
 
 model AdjustmentReason {
-  adjustmentReasonID Int                  @id @default(autoincrement())
+  adjustmentReasonID Int      @id @default(autoincrement())
   reasonName         String
-  description     String?
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
+  description        String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
   createdByID        Int
   modifiedByID       Int?
 
-  adjustments        InventoryAdjustment[] @relation("AdjustmentReasonAdjustments") // One-to-many relation
+  adjustments InventoryAdjustment[] @relation("AdjustmentReasonAdjustments") // One-to-many relation
 }
 
 model PurchaseOrder {

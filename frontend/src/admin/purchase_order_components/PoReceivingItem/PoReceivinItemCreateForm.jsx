@@ -25,9 +25,15 @@ const PoReceivingItemCreateForm = ({ onItemCreated, closeForm }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // Parse itemID, receivedQty, and unitCost as integers
+    const parsedValue =
+      name === "itemID" || name === "receivedQty" || name === "unitCost"
+        ? parseInt(value, 10)
+        : value;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: isNaN(parsedValue) ? value : parsedValue, // If parse fails, keep the original value
     }));
   };
 
@@ -78,6 +84,7 @@ const PoReceivingItemCreateForm = ({ onItemCreated, closeForm }) => {
               onChange={handleChange}
               required
               fullWidth
+              type="number" // Set input type to number
             />
           </Grid>
           <Grid item xs={12}>
@@ -103,7 +110,7 @@ const PoReceivingItemCreateForm = ({ onItemCreated, closeForm }) => {
               onChange={handleChange}
               required
               fullWidth
-              type="number"
+              type="number" // Set input type to number
             />
           </Grid>
           <Grid item xs={12}>
@@ -114,7 +121,7 @@ const PoReceivingItemCreateForm = ({ onItemCreated, closeForm }) => {
               onChange={handleChange}
               required
               fullWidth
-              type="number"
+              type="number" // Set input type to number
             />
           </Grid>
           <Grid item xs={12}>
