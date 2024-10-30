@@ -59,8 +59,8 @@ const PoItemList = () => {
   const renderBody = (item, index) => (
     <tr key={index}>
       <td>{item.poItemID}</td>
-      <td>{item.poID}</td>
-      <td>{item.itemID}</td>
+      <td>{item.purchaseOrder.poNumber}</td>
+      <td>{item.item.itemName}</td>
       <td>{item.uom}</td>
       <td>{item.unitCost}</td>
       <td>{item.orderQty}</td>

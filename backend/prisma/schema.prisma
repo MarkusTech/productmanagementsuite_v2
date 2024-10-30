@@ -88,9 +88,10 @@ model Items {
   updatedAt    DateTime @updatedAt
   status       Boolean  @default(true)
 
-  category       Categories        @relation("CategoryItems", fields: [categoryID], references: [categoryID]) // Establish relationship
-  inventory      Inventory[]       @relation("InventoryItems") // Added inverse relation
-  receivingItems poReceivingItem[] @relation("ItemPoReceivingItems") // Added inverse relation
+  category           Categories          @relation("CategoryItems", fields: [categoryID], references: [categoryID])
+  inventory          Inventory[]         @relation("InventoryItems")
+  receivingItems     poReceivingItem[]   @relation("ItemPoReceivingItems")
+  purchaseOrderItems PurchaseOrderItem[] @relation("ItemPurchaseOrderItems") // Specify relation name
 }
 
 model Inventory {
@@ -177,8 +178,9 @@ model PurchaseOrder {
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 
-  supplier poSupplier @relation("SupplierOrders", fields: [supplierID], references: [supplierID])
-  location Locations  @relation("LocationOrders", fields: [locationID], references: [locationID])
+  supplier   poSupplier          @relation("SupplierOrders", fields: [supplierID], references: [supplierID])
+  location   Locations           @relation("LocationOrders", fields: [locationID], references: [locationID])
+  orderItems PurchaseOrderItem[] @relation("PurchaseOrderItems")
 }
 
 model PurchaseOrderItem {
@@ -190,6 +192,9 @@ model PurchaseOrderItem {
   orderQty  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  purchaseOrder PurchaseOrder @relation("PurchaseOrderItems", fields: [poID], references: [poID])
+  item          Items         @relation("ItemPurchaseOrderItems", fields: [itemID], references: [itemID]) // Specify relation name
 }
 
 model poReceivingItem {
