@@ -132,7 +132,7 @@ const InventoryAdjustmentList = () => {
 
       {showEditForm && (
         <InventoryAdjustmentUpdateForm
-          adjustmentId={editAdjustmentId} // Pass the adjustment ID for updating
+          adjustmentId={editAdjustmentId}
           onAdjustmentUpdated={handleAdjustmentUpdated}
           closeForm={handleEditFormClose}
         />
