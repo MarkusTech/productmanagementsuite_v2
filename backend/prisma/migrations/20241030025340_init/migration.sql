@@ -265,3 +265,6 @@ ALTER TABLE `InventoryAdjustment` ADD CONSTRAINT `InventoryAdjustment_adjustment
 
 -- AddForeignKey
 ALTER TABLE `InventoryAdjustment` ADD CONSTRAINT `InventoryAdjustment_adjustmentReasonID_fkey` FOREIGN KEY (`adjustmentReasonID`) REFERENCES `AdjustmentReason`(`adjustmentReasonID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `poReceivingItem` ADD CONSTRAINT `poReceivingItem_itemID_fkey` FOREIGN KEY (`itemID`) REFERENCES `Items`(`itemID`) ON DELETE RESTRICT ON UPDATE CASCADE;
