@@ -15,6 +15,9 @@
 # prisma migration
 
 - npm install @prisma/client
+- npm i @prisma/client@latest
+- npx prisma migrate deploy
+
 - npx prisma migrate dev --name init
 - npx prisma generate
 - npx prisma studio
