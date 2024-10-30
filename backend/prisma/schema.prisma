@@ -10,7 +10,7 @@ datasource db {
 model Users {
   userID       Int      @id @default(autoincrement())
   firstName    String
-  middleName   String
+  middleName   String?
   lastName     String
   roleID       Int
   username     String   @unique
@@ -22,12 +22,15 @@ model Users {
   status       Boolean  @default(true)
   image_url    String?
   createdByID  Int
-  modifiedByID Int
+  modifiedByID Int?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
   // Relation field to UserRole
   role UserRole @relation("UserRoleUsers", fields: [roleID], references: [roleID])
+
+  // Added relation field for poReceiving
+  receivedItems poReceiving[] @relation("UserReceivedItems") // Specify unique relation name for the inverse
 }
 
 model UserRole {
@@ -178,9 +181,10 @@ model PurchaseOrder {
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 
-  supplier   poSupplier          @relation("SupplierOrders", fields: [supplierID], references: [supplierID])
-  location   Locations           @relation("LocationOrders", fields: [locationID], references: [locationID])
-  orderItems PurchaseOrderItem[] @relation("PurchaseOrderItems")
+  supplier    poSupplier          @relation("SupplierOrders", fields: [supplierID], references: [supplierID])
+  location    Locations           @relation("LocationOrders", fields: [locationID], references: [locationID])
+  orderItems  PurchaseOrderItem[] @relation("PurchaseOrderItems")
+  poReceiving poReceiving[]
 }
 
 model PurchaseOrderItem {
@@ -218,8 +222,11 @@ model poReceiving {
   totalQty        Int
   status          String
   receivedByID    Int
-  createdAt       DateTime
-  updatedAt       DateTime
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  purchaseOrder PurchaseOrder @relation(fields: [poID], references: [poID]) // Relation to PurchaseOrder
+  receivedBy    Users         @relation("UserReceivedItems", fields: [receivedByID], references: [userID]) // Specify unique relation name
 }
 
 model poSupplier {

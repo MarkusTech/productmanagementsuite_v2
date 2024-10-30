@@ -56,7 +56,12 @@ export class PoReceivingController {
   // Get all poReceiving records
   async getAllPoReceiving(req: Request, res: Response): Promise<void> {
     try {
-      const poReceivingRecords = await prisma.poReceiving.findMany();
+      const poReceivingRecords = await prisma.poReceiving.findMany({
+        include: {
+          purchaseOrder: true, // Include related purchase order data
+          receivedBy: true, // Include related user data for the receiver
+        },
+      });
       logger.info("Fetched all PO receiving records");
 
       res.status(200).json({
