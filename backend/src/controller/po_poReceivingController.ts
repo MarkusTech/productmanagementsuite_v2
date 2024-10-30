@@ -58,8 +58,8 @@ export class PoReceivingController {
     try {
       const poReceivingRecords = await prisma.poReceiving.findMany({
         include: {
-          purchaseOrder: true, // Include related purchase order data
-          receivedBy: true, // Include related user data for the receiver
+          purchaseOrder: true,
+          receivedBy: true,
         },
       });
       logger.info("Fetched all PO receiving records");
