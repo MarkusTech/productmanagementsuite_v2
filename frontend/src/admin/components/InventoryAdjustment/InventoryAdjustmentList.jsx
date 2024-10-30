@@ -91,7 +91,7 @@ const InventoryAdjustmentList = () => {
               ? "yellow"
               : item.status === "Rejected"
               ? "red"
-              : "inherit", // Default color if none match
+              : "inherit",
         }}
       >
         {item.status}
