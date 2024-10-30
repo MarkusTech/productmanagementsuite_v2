@@ -100,8 +100,8 @@ const Sidebar = ({ isClosed }) => {
           )}
         </li>
 
-        {/* Inventory Submenu
-        <li onClick={toggleInventory}>
+        {/* Inventory Submenu */}
+        {/* <li onClick={toggleInventory}>
           <Link>
             <i className="bx bxs-package"></i>Inventory Setup
             <i
