@@ -1,28 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `category` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `item` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `location` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `supplier` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `user` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE `category`;
-
--- DropTable
-DROP TABLE `item`;
-
--- DropTable
-DROP TABLE `location`;
-
--- DropTable
-DROP TABLE `supplier`;
-
--- DropTable
-DROP TABLE `user`;
-
 -- CreateTable
 CREATE TABLE `Users` (
     `userID` INTEGER NOT NULL AUTO_INCREMENT,
@@ -37,7 +12,7 @@ CREATE TABLE `Users` (
     `address` VARCHAR(191) NOT NULL,
     `birthday` VARCHAR(191) NOT NULL,
     `status` BOOLEAN NOT NULL DEFAULT true,
-    `image_url` VARCHAR(191) NOT NULL,
+    `image_url` VARCHAR(191) NULL,
     `createdByID` INTEGER NOT NULL,
     `modifiedByID` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -46,6 +21,15 @@ CREATE TABLE `Users` (
     UNIQUE INDEX `Users_username_key`(`username`),
     UNIQUE INDEX `Users_email_key`(`email`),
     PRIMARY KEY (`userID`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `UserRole` (
+    `roleID` INTEGER NOT NULL AUTO_INCREMENT,
+    `roleName` VARCHAR(191) NOT NULL,
+
+    UNIQUE INDEX `UserRole_roleName_key`(`roleName`),
+    PRIMARY KEY (`roleID`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -69,7 +53,7 @@ CREATE TABLE `Locations` (
     `description` VARCHAR(191) NULL,
     `status` BOOLEAN NOT NULL DEFAULT true,
     `createdByID` INTEGER NOT NULL,
-    `modifiedByID` INTEGER NOT NULL,
+    `modifiedByID` INTEGER NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -129,7 +113,7 @@ CREATE TABLE `Inventory` (
 CREATE TABLE `InventoryType` (
     `inventoryTypeID` INTEGER NOT NULL AUTO_INCREMENT,
     `typeName` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(191) NULL,
     `status` BOOLEAN NOT NULL DEFAULT true,
     `createdByID` INTEGER NOT NULL,
     `modifiedByID` INTEGER NULL,
@@ -159,6 +143,7 @@ CREATE TABLE `InventoryAdjustment` (
 CREATE TABLE `AdjustmentType` (
     `adjustmentTypeID` INTEGER NOT NULL AUTO_INCREMENT,
     `typeName` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(191) NULL,
     `createdByID` INTEGER NOT NULL,
     `modifiedByID` INTEGER NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -171,6 +156,7 @@ CREATE TABLE `AdjustmentType` (
 CREATE TABLE `AdjustmentReason` (
     `adjustmentReasonID` INTEGER NOT NULL AUTO_INCREMENT,
     `reasonName` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `createdByID` INTEGER NOT NULL,
@@ -178,3 +164,104 @@ CREATE TABLE `AdjustmentReason` (
 
     PRIMARY KEY (`adjustmentReasonID`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `PurchaseOrder` (
+    `poID` INTEGER NOT NULL AUTO_INCREMENT,
+    `poNumber` INTEGER NOT NULL,
+    `supplierID` INTEGER NOT NULL,
+    `orderDate` DATETIME(3) NOT NULL,
+    `expectedDeliverDate` DATETIME(3) NOT NULL,
+    `status` VARCHAR(191) NOT NULL,
+    `locationID` INTEGER NOT NULL,
+    `createdByID` INTEGER NOT NULL,
+    `modifiedByID` INTEGER NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    UNIQUE INDEX `PurchaseOrder_poNumber_key`(`poNumber`),
+    PRIMARY KEY (`poID`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `PurchaseOrderItem` (
+    `poItemID` INTEGER NOT NULL AUTO_INCREMENT,
+    `poID` INTEGER NOT NULL,
+    `itemID` INTEGER NOT NULL,
+    `uom` VARCHAR(191) NOT NULL,
+    `unitCost` DOUBLE NOT NULL,
+    `orderQty` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`poItemID`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `poReceivingItem` (
+    `poReceivingItemID` INTEGER NOT NULL AUTO_INCREMENT,
+    `itemID` INTEGER NOT NULL,
+    `uom` VARCHAR(191) NOT NULL,
+    `receivedQty` INTEGER NOT NULL,
+    `unitCost` DOUBLE NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`poReceivingItemID`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `poReceiving` (
+    `poReceivingID` INTEGER NOT NULL AUTO_INCREMENT,
+    `poID` INTEGER NOT NULL,
+    `receivedDate` DATETIME(3) NOT NULL,
+    `referenceNumber` VARCHAR(191) NOT NULL,
+    `totalCost` DOUBLE NOT NULL,
+    `totalQty` INTEGER NOT NULL,
+    `status` VARCHAR(191) NOT NULL,
+    `receivedByID` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL,
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`poReceivingID`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `poSupplier` (
+    `supplierID` INTEGER NOT NULL AUTO_INCREMENT,
+    `supplierName` VARCHAR(191) NOT NULL,
+    `contactDetails` VARCHAR(191) NOT NULL,
+    `address` VARCHAR(191) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `createdByID` INTEGER NOT NULL,
+    `modifiedByID` INTEGER NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `status` BOOLEAN NOT NULL DEFAULT true,
+
+    PRIMARY KEY (`supplierID`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Users` ADD CONSTRAINT `Users_roleID_fkey` FOREIGN KEY (`roleID`) REFERENCES `UserRole`(`roleID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Items` ADD CONSTRAINT `Items_categoryID_fkey` FOREIGN KEY (`categoryID`) REFERENCES `Categories`(`categoryID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Inventory` ADD CONSTRAINT `Inventory_itemID_fkey` FOREIGN KEY (`itemID`) REFERENCES `Items`(`itemID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Inventory` ADD CONSTRAINT `Inventory_locationID_fkey` FOREIGN KEY (`locationID`) REFERENCES `Locations`(`locationID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Inventory` ADD CONSTRAINT `Inventory_inventoryTypeID_fkey` FOREIGN KEY (`inventoryTypeID`) REFERENCES `InventoryType`(`inventoryTypeID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `InventoryAdjustment` ADD CONSTRAINT `InventoryAdjustment_inventoryID_fkey` FOREIGN KEY (`inventoryID`) REFERENCES `Inventory`(`inventoryID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `InventoryAdjustment` ADD CONSTRAINT `InventoryAdjustment_adjustmentTypeID_fkey` FOREIGN KEY (`adjustmentTypeID`) REFERENCES `AdjustmentType`(`adjustmentTypeID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `InventoryAdjustment` ADD CONSTRAINT `InventoryAdjustment_adjustmentReasonID_fkey` FOREIGN KEY (`adjustmentReasonID`) REFERENCES `AdjustmentReason`(`adjustmentReasonID`) ON DELETE RESTRICT ON UPDATE CASCADE;
