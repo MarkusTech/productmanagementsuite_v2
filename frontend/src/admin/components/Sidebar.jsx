@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Sidebar = ({ isClosed }) => {
-  const [isInventoryOpen, setInventoryOpen] = useState(false);
+  // const [isInventoryOpen, setInventoryOpen] = useState(false);
   const [isPurchaseOrder, setPurchaseOrder] = useState(false);
 
-  const toggleInventory = () => {
-    setInventoryOpen(!isInventoryOpen);
-  };
+  // const toggleInventory = () => {
+  //   setInventoryOpen(!isInventoryOpen);
+  // };
 
   const togglePurchaseOrder = () => {
     setPurchaseOrder(!isPurchaseOrder);
@@ -100,7 +100,7 @@ const Sidebar = ({ isClosed }) => {
           )}
         </li>
 
-        {/* Inventory Submenu */}
+        {/* Inventory Submenu
         <li onClick={toggleInventory}>
           <Link>
             <i className="bx bxs-package"></i>Inventory Setup
@@ -127,11 +127,6 @@ const Sidebar = ({ isClosed }) => {
                   <i className="bx bxs-edit"></i>Inventory Adjustment
                 </Link>
               </li>
-              {/* <li>
-                <Link to="/adjustment-type">
-                  <i className="bx bxs-grid"></i> Adjustment Type
-                </Link>
-              </li> */}
               <li>
                 <Link to="/adjustment-type-reason">
                   <i className="bx bxs-info-circle"></i> Adjustment Reason
@@ -144,7 +139,7 @@ const Sidebar = ({ isClosed }) => {
               </li>
             </ul>
           )}
-        </li>
+        </li> */}
 
         {/* --------------------------------- */}
       </ul>
