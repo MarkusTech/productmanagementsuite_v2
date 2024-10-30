@@ -30,13 +30,13 @@ model Users {
   role UserRole @relation("UserRoleUsers", fields: [roleID], references: [roleID])
 
   // Added relation field for poReceiving
-  receivedItems poReceiving[] @relation("UserReceivedItems") // Specify unique relation name for the inverse
+  receivedItems poReceiving[] @relation("UserReceivedItems")
 }
 
 model UserRole {
   roleID   Int     @id @default(autoincrement())
   roleName String  @unique
-  users    Users[] @relation("UserRoleUsers") // Updated relation name
+  users    Users[] @relation("UserRoleUsers")
 }
 
 model Categories {
@@ -47,7 +47,7 @@ model Categories {
   status       Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  items        Items[]  @relation("CategoryItems") // Relation to Items
+  items        Items[]  @relation("CategoryItems")
 }
 
 model Locations {
@@ -60,7 +60,7 @@ model Locations {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  inventory      Inventory[]     @relation("InventoryLocations") // Added inverse relation
+  inventory      Inventory[]     @relation("InventoryLocations")
   purchaseOrders PurchaseOrder[] @relation("LocationOrders")
 }
 
@@ -94,7 +94,7 @@ model Items {
   category           Categories          @relation("CategoryItems", fields: [categoryID], references: [categoryID])
   inventory          Inventory[]         @relation("InventoryItems")
   receivingItems     poReceivingItem[]   @relation("ItemPoReceivingItems")
-  purchaseOrderItems PurchaseOrderItem[] @relation("ItemPurchaseOrderItems") // Specify relation name
+  purchaseOrderItems PurchaseOrderItem[] @relation("ItemPurchaseOrderItems")
 }
 
 model Inventory {
@@ -124,14 +124,14 @@ model InventoryType {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  inventories Inventory[] @relation("InventoryTypeInventories") // Inverse relation      
+  inventories Inventory[] @relation("InventoryTypeInventories")
 }
 
 model InventoryAdjustment {
   adjustmentID       Int      @id @default(autoincrement())
   inventoryID        Int
-  adjustmentTypeID   Int // Foreign key relation without relation attribute
-  adjustmentReasonID Int // Foreign key relation without relation attribute
+  adjustmentTypeID   Int
+  adjustmentReasonID Int
   quantityAdjusted   Int
   status             String
   createdByID        Int
@@ -210,7 +210,7 @@ model poReceivingItem {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  item Items @relation("ItemPoReceivingItems", fields: [itemID], references: [itemID]) // Establish relationship
+  item Items @relation("ItemPoReceivingItems", fields: [itemID], references: [itemID])
 }
 
 model poReceiving {
@@ -225,8 +225,8 @@ model poReceiving {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  purchaseOrder PurchaseOrder @relation(fields: [poID], references: [poID]) // Relation to PurchaseOrder
-  receivedBy    Users         @relation("UserReceivedItems", fields: [receivedByID], references: [userID]) // Specify unique relation name
+  purchaseOrder PurchaseOrder @relation(fields: [poID], references: [poID])
+  receivedBy    Users         @relation("UserReceivedItems", fields: [receivedByID], references: [userID])
 }
 
 model poSupplier {
