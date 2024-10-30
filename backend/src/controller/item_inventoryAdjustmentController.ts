@@ -94,7 +94,16 @@ export class InventoryAdjustmentController {
     try {
       const inventoryAdjustments = await prisma.inventoryAdjustment.findMany({
         include: {
-          inventory: true,
+          inventory: {
+            include: {
+              item: {
+                select: {
+                  itemID: true,
+                  itemName: true, // Fetch the itemName along with itemID
+                },
+              },
+            },
+          },
           adjustmentType: true,
           adjustmentReason: true,
         },
