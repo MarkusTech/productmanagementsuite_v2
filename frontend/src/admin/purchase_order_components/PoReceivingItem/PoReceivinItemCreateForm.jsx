@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import { createPoReceivingItem } from "../../../services/purchaseOrder/poReceivingItem";
-import { TextField, Button, Grid, IconButton } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Grid,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Swal from "sweetalert2";
 
@@ -72,15 +81,20 @@ const PoReceivingItemCreateForm = ({ onItemCreated, closeForm }) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              label="Unit Of Measurement (UOM)"
-              name="uom"
-              value={formData.uom}
-              onChange={handleChange}
-              required
-              fullWidth
-            />
+            <FormControl fullWidth required>
+              <InputLabel>Unit Of Measurement (UOM)</InputLabel>
+              <Select
+                label="Unit Of Measurement (UOM)"
+                name="uom"
+                value={formData.uom}
+                onChange={handleChange}
+              >
+                <MenuItem value="grams">grms</MenuItem>
+                <MenuItem value="kg">kg</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
+
           <Grid item xs={12}>
             <TextField
               label="Received Quantity"
