@@ -3,8 +3,8 @@ import Table from "../Table";
 import { fetchInventories } from "../../../services/inventory/inventoryService";
 import InventoryCreateForm from "./InventoryCreateForm";
 import InventoryEditForm from "./InventoryEditForm";
-import { Button } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+// import { Button } from "@mui/material";
+// import EditIcon from "@mui/icons-material/Edit";
 
 const inventoryTableHead = [
   "ID",
@@ -13,7 +13,7 @@ const inventoryTableHead = [
   "Item",
   "Quantity",
   "Re-Order Threshold",
-  "Action",
+  // "Action",
 ];
 
 const renderHead = (item, index) => <th key={index}>{item}</th>;
@@ -49,10 +49,10 @@ const InventoryList = () => {
   };
 
   // Handle editing an inventory
-  const handleEdit = (inventory) => {
-    setEditInventory(inventory);
-    setShowEditForm(!showEditForm);
-  };
+  // const handleEdit = (inventory) => {
+  //   setEditInventory(inventory);
+  //   setShowEditForm(!showEditForm);
+  // };
 
   // Refresh inventory list after an inventory item is updated
   const handleInventoryUpdated = () => {
@@ -76,7 +76,7 @@ const InventoryList = () => {
       <td>{item.item.itemName}</td>
       <td>{item.quantity}</td>
       <td>{item.reOrderThreshold}</td>
-      <td>
+      {/* <td>
         <Button
           variant="contained"
           color="primary"
@@ -85,7 +85,7 @@ const InventoryList = () => {
         >
           Edit
         </Button>
-      </td>
+      </td> */}
     </tr>
   );
 

@@ -3,15 +3,15 @@ import Table from "../Table";
 import { fetchInventoryTypes } from "../../../services/inventory/inventoryTypeService";
 import InventoryTypeCreateForm from "./InventoryTypeCreateForm";
 import InventoryTypeUpdateForm from "./InventoryTypeUpdateForm";
-import { Button } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+// import { Button } from "@mui/material";
+// import EditIcon from "@mui/icons-material/Edit";
 
 const inventoryTypeTableHead = [
   "Inventory Type ID",
   "Inventory Type Name",
   "Description",
   "Status",
-  "Action",
+  // "Action",
 ];
 
 const renderHead = (item, index) => <th key={index}>{item}</th>;
@@ -45,10 +45,10 @@ const InventoryTypeList = () => {
     setShowCreateForm(false);
   };
 
-  const handleEdit = (inventoryType) => {
-    setEditInventoryTypeID(inventoryType.inventoryTypeID);
-    setShowEditForm(true);
-  };
+  // const handleEdit = (inventoryType) => {
+  //   setEditInventoryTypeID(inventoryType.inventoryTypeID);
+  //   setShowEditForm(true);
+  // };
 
   const handleEditFormClose = () => {
     setShowEditForm(false);
@@ -68,7 +68,7 @@ const InventoryTypeList = () => {
       <td style={{ color: item.status ? "blue" : "red", fontWeight: "bold" }}>
         {item.status ? "Active" : "Inactive"}
       </td>
-      <td>
+      {/* <td>
         <Button
           variant="contained"
           color="primary"
@@ -77,7 +77,7 @@ const InventoryTypeList = () => {
         >
           Edit
         </Button>
-      </td>
+      </td> */}
     </tr>
   );
 
