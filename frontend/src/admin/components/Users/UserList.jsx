@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
 const userTableHead = [
+  "",
   "ID",
   "First Name",
   "Middle Name",
@@ -72,6 +73,15 @@ const UserList = () => {
 
   const renderBody = (item, index) => (
     <tr key={index}>
+      <td>
+        {item.image_url && (
+          <img
+            src={`http://localhost:5001/${item.image_url}`} // Update the base URL if needed
+            alt="User"
+            style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+          />
+        )}
+      </td>
       <td>{item.userID}</td>
       <td>{item.firstName}</td>
       <td>{item.middleName}</td>
