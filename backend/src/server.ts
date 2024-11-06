@@ -8,6 +8,7 @@ import compression from "compression";
 import rateLimit from "express-rate-limit";
 import "colors";
 import passport from "passport";
+import path from "path";
 
 // Inventory Item Routes
 import authRoutes from "./routes/auth.routes";
@@ -31,6 +32,9 @@ import poSupplierRoutes from "./routes/po_supplier.routes";
 
 // Initialize express app
 const app = express();
+
+// Serve static files from the 'uploads' folder
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Middlewares
 app.use(cors());
