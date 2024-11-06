@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
 const itemTableHead = [
+  "",
   "ID",
   "Item Code",
   "Item Name",
@@ -73,6 +74,15 @@ const ItemList = () => {
 
   const renderBody = (item, index) => (
     <tr key={index}>
+      <td>
+        {item.image_url && (
+          <img
+            src={`http://localhost:5001/${item.image_url.replace(/\\/g, "/")}`} // Replace backslashes with forward slashes
+            alt="User"
+            style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+          />
+        )}
+      </td>
       <td>{item.itemID}</td>
       <td>{item.itemCode}</td>
       <td>{item.itemName}</td>
