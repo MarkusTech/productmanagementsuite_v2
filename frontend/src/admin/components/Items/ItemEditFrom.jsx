@@ -186,15 +186,6 @@ const ItemEditForm = ({ itemID, onClose, onItemUpdated }) => {
               fullWidth
             />
           </Grid>
-          {/* <Grid item xs={6}>
-            <TextField
-              label="UOM"
-              name="uom"
-              value={formData.uom}
-              onChange={handleChange}
-              fullWidth
-            />
-          </Grid> */}
           <Grid item xs={6}>
             <FormControl fullWidth required>
               <InputLabel id="uom-label">UOM</InputLabel>
