@@ -32,6 +32,6 @@ const upload = multer({
     }
     cb(new Error("Unsupported file type"));
   },
-}).single("image");
+}).single("image_url");
 
 export default upload;

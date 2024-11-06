@@ -27,12 +27,12 @@ const UserCreateForm = ({ onUserCreated, closeForm }) => {
     birthday: "",
     createdByID: 1,
     modifiedByID: 1,
+    image_url: "", // Added image URL field
   });
 
-  const [userRoles, setUserRoles] = useState([]); // State for user roles
+  const [userRoles, setUserRoles] = useState([]);
   const [error, setError] = useState(null);
 
-  // Fetch user roles on component mount
   useEffect(() => {
     const loadUserRoles = async () => {
       try {
@@ -49,14 +49,36 @@ const UserCreateForm = ({ onUserCreated, closeForm }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]:
+        name === "createdByID" || name === "modifiedByID"
+          ? parseInt(value)
+          : value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      image_url: e.target.files[0], // Set the selected file
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await createUser(formData);
+      const formDataToSend = new FormData();
+
+      // Add form fields to formDataToSend
+      Object.keys(formData).forEach((key) => {
+        if (key === "createdByID" || key === "modifiedByID") {
+          // Convert these specific fields to integers
+          formDataToSend.append(key, parseInt(formData[key], 10));
+        } else {
+          formDataToSend.append(key, formData[key]);
+        }
+      });
+
+      const response = await createUser(formDataToSend);
       if (response.success) {
         Swal.fire({
           icon: "success",
@@ -132,12 +154,11 @@ const UserCreateForm = ({ onUserCreated, closeForm }) => {
                 name="roleID"
                 value={formData.roleID}
                 onChange={handleChange}
-                label={"Role"}
+                label="Role"
               >
                 {userRoles.map((role) => (
                   <MenuItem key={role.roleID} value={role.roleID}>
-                    {role.roleName}{" "}
-                    {/* Adjust this based on your role object structure */}
+                    {role.roleName}
                   </MenuItem>
                 ))}
               </Select>
@@ -206,12 +227,24 @@ const UserCreateForm = ({ onUserCreated, closeForm }) => {
             />
           </Grid>
           <Grid item xs={12}>
+            <TextField
+              type="file"
+              label="Profile Image"
+              name="image_url"
+              onChange={handleFileChange} // File input handler
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
             <Grid container justifyContent="flex-end">
               <Button
                 variant="contained"
                 color="primary"
                 type="submit"
-                fullWidth // Ensure the button is full width
+                fullWidth
                 style={styles.submitButton}
               >
                 Create User
@@ -224,7 +257,6 @@ const UserCreateForm = ({ onUserCreated, closeForm }) => {
   );
 };
 
-// Styles for the form and close button
 const styles = {
   formContainer: {
     position: "fixed",
@@ -232,7 +264,7 @@ const styles = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "700px",
-    height: "550px",
+    height: "650px",
     backgroundColor: "#fff",
     padding: "20px",
     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",

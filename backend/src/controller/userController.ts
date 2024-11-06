@@ -10,28 +10,6 @@ const prisma = new PrismaClient();
 export class UserController {
   // Create a new user
   async createUser(req: Request, res: Response): Promise<void> {
-    const schema = Joi.object({
-      firstName: Joi.string().min(2).max(25).required(),
-      middleName: Joi.string().max(25).allow(null, ""),
-      lastName: Joi.string().min(2).max(25).required(),
-      roleID: Joi.number().required(),
-      username: Joi.string().min(2).max(25).required(),
-      email: Joi.string().email().required(),
-      password: Joi.string().min(6).required(),
-      phoneNumber: Joi.string().allow(null, ""),
-      address: Joi.string().allow(null, ""),
-      birthday: Joi.date().allow(null),
-      createdByID: Joi.number().required(),
-      modifiedByID: Joi.number().required(),
-    });
-
-    const { error } = schema.validate(req.body);
-    if (error) {
-      res
-        .status(400)
-        .json({ success: false, message: error.details[0].message });
-    }
-
     const {
       firstName,
       middleName,
@@ -62,8 +40,20 @@ export class UserController {
         });
       }
 
-      // Hash password
+      // Hash the password
       const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Convert createdByID and modifiedByID to integers
+      const createdByIDInt = parseInt(createdByID, 10);
+      const modifiedByIDInt = parseInt(modifiedByID, 10);
+
+      // Validate integer conversion
+      if (isNaN(createdByIDInt) || isNaN(modifiedByIDInt)) {
+        res.status(400).json({
+          success: false,
+          message: "Invalid 'createdByID' or 'modifiedByID' provided.",
+        });
+      }
 
       // Create new user
       const newUser = await prisma.users.create({
@@ -79,8 +69,8 @@ export class UserController {
           address,
           birthday,
           image_url,
-          createdByID,
-          modifiedByID,
+          createdByID: createdByIDInt,
+          modifiedByID: modifiedByIDInt,
         },
       });
 
@@ -92,13 +82,13 @@ export class UserController {
       });
     } catch (error) {
       if (error instanceof Error) {
-        logger.error(`Error creating user: ${error.message}`);
+        console.error(`Error creating user: ${error.message}`);
         res
           .status(500)
           .json({ success: false, message: "Error creating user" });
       }
 
-      logger.error("Unknown error occurred during user creation");
+      console.error("Unknown error occurred during user creation");
       res.status(500).json({ success: false, message: "Unknown error" });
     }
   }
