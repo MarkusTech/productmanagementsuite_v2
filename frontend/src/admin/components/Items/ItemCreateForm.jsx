@@ -182,6 +182,23 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
             />
           </Grid>
           <Grid item xs={6}>
+            <FormControl fullWidth required>
+              <InputLabel id="uom-label">UOM</InputLabel>
+              <Select
+                labelId="uom-label"
+                id="uom"
+                name="uom"
+                value={formData.uom}
+                onChange={handleChange}
+                label="UOM"
+              >
+                <MenuItem value="PCS">PCS</MenuItem>
+                <MenuItem value="PAIR">PAIR</MenuItem>
+                <MenuItem value="BULK">BULK</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
             <TextField
               label="Grams"
               name="grams"
@@ -189,15 +206,6 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
               onChange={handleChange}
               type="number"
               required
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="UOM"
-              name="uom"
-              value={formData.uom}
-              onChange={handleChange}
               fullWidth
             />
           </Grid>
