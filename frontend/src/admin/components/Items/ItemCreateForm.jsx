@@ -26,9 +26,9 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
     price: 0.0,
     cost: 0.0,
     createdByID: 1,
-    image_url: "", // Added image URL field
   });
 
+  const [image, setImage] = useState(null); // To store the uploaded image
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
 
@@ -58,16 +58,32 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
   };
 
   const handleFileChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      image_url: e.target.files[0], // Set the selected file
-    }));
+    setImage(e.target.files[0]); // Update the image state with the selected file
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const form = new FormData(); // Create FormData to handle file upload
+    // Append form data fields
+    form.append("itemCode", formData.itemCode);
+    form.append("itemName", formData.itemName);
+    form.append("categoryID", formData.categoryID);
+    form.append("barcode", formData.barcode);
+    form.append("description", formData.description);
+    form.append("grams", formData.grams);
+    form.append("uom", formData.uom);
+    form.append("price", formData.price);
+    form.append("cost", formData.cost);
+    form.append("createdByID", formData.createdByID);
+
+    // Append the image if it exists
+    if (image) {
+      form.append("image_url", image); // This key should match the name you use in your backend (image_url or just image)
+    }
+
     try {
-      const response = await createItem(formData);
+      const response = await createItem(form); // Pass FormData to your service function
       if (response.success) {
         Swal.fire({
           icon: "success",
@@ -208,16 +224,7 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              type="file"
-              label="Item Image"
-              name="image_url"
-              onChange={handleFileChange} // File input handler
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            <input type="file" onChange={handleFileChange} accept="image/*" />
           </Grid>
           <Grid item xs={12}>
             <Button variant="contained" color="primary" type="submit" fullWidth>

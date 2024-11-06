@@ -22,23 +22,25 @@ export class ItemController {
       modifiedByID,
     } = req.body;
 
+    // Optional image URL
     let image_url: string | null = req.file ? req.file.path : null;
 
     try {
+      // Create new item
       const newItem = await prisma.items.create({
         data: {
           itemCode,
-          categoryID,
+          categoryID: parseInt(categoryID, 10), // Ensuring categoryID is an integer
           barcode,
           itemName,
           description,
-          grams,
+          grams: parseFloat(grams), // Ensuring grams is a number
           uom,
-          price,
-          cost,
+          price: parseFloat(price), // Ensuring price is a number
+          cost: parseFloat(cost), // Ensuring cost is a number
           image_url,
-          createdByID,
-          modifiedByID,
+          createdByID: parseInt(createdByID, 10), // Ensuring createdByID is an integer
+          modifiedByID: parseInt(modifiedByID, 10), // Ensuring modifiedByID is an integer
         },
       });
 
@@ -52,10 +54,15 @@ export class ItemController {
     } catch (error: unknown) {
       if (error instanceof Error) {
         logger.error(`Error creating item: ${error.message}`);
-        throw new CustomError("Error creating item", 500);
+        res
+          .status(500)
+          .json({ success: false, message: "Error creating item" });
+      } else {
+        logger.error("An unexpected error occurred while creating item");
+        res
+          .status(500)
+          .json({ success: false, message: "An unexpected error occurred" });
       }
-      logger.error("An unexpected error occurred while creating item");
-      throw new CustomError("An unexpected error occurred", 500);
     }
   }
 
