@@ -26,6 +26,7 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
     price: 0.0,
     cost: 0.0,
     createdByID: 1,
+    image_url: "", // Added image URL field
   });
 
   const [categories, setCategories] = useState([]);
@@ -53,6 +54,13 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
           : name === "grams" || name === "price" || name === "cost"
           ? parseFloat(value)
           : value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      image_url: e.target.files[0], // Set the selected file
     }));
   };
 
@@ -197,6 +205,18 @@ const ItemCreateForm = ({ onItemCreated, closeForm }) => {
               type="number"
               required
               fullWidth
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              type="file"
+              label="Item Image"
+              name="image_url"
+              onChange={handleFileChange} // File input handler
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
           </Grid>
           <Grid item xs={12}>

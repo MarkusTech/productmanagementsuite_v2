@@ -22,6 +22,8 @@ export class ItemController {
       modifiedByID,
     } = req.body;
 
+    let image_url: string | null = req.file ? req.file.path : null;
+
     try {
       const newItem = await prisma.items.create({
         data: {
@@ -34,7 +36,7 @@ export class ItemController {
           uom,
           price,
           cost,
-          image_url: null, // No image URL
+          image_url,
           createdByID,
           modifiedByID,
         },
