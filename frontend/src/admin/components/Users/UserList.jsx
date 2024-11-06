@@ -76,7 +76,7 @@ const UserList = () => {
       <td>
         {item.image_url && (
           <img
-            src={`http://localhost:5001/${item.image_url}`} // Update the base URL if needed
+            src={`http://localhost:5001/${item.image_url.replace(/\\/g, "/")}`} // Replace backslashes with forward slashes
             alt="User"
             style={{ width: "50px", height: "50px", borderRadius: "50%" }}
           />

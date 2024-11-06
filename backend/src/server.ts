@@ -34,7 +34,8 @@ import poSupplierRoutes from "./routes/po_supplier.routes";
 const app = express();
 
 // Serve static files from the 'uploads' folder
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static("uploads"));
 
 // Middlewares
 app.use(cors());
